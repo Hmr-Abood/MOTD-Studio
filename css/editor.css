@@ -155,3 +155,8 @@
     font-size: 11px;
     text-align: right;
 }
+
+
+.minecraft-obfuscated { display:inline-block; min-width:0.45em; }
+#share-button { border:1px solid var(--border); background:transparent; color:#b8bdc8; }
+#share-button:hover { background:var(--surface-light); color:var(--text); }
