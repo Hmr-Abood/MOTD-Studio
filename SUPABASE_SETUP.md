@@ -16,7 +16,7 @@ This connects the GitHub Pages site to a shared community template library.
 2. Paste the full contents of `supabase/migrations/001_community_templates.sql`.
 3. Run it once and confirm it completes successfully.
 
-The migration enables RLS, revokes broad table permissions, allows public reads only for approved templates, requires authenticated authors for submissions, restricts moderation to an admin allowlist, and limits accounts to five submissions per rolling 24 hours.
+The migration enables RLS on the exposed templates table and private admin/rate-limit tables, revokes broad table permissions, allows public reads only for approved templates, requires authenticated authors for submissions, restricts moderation to a private admin allowlist, and limits accounts to five submissions per rolling 24 hours. The rate-limit ledger is separate from template rows, so withdrawing a pending submission does not reset the limit.
 
 ## 3. Configure the website
 
