@@ -26,6 +26,7 @@ export function renderMinecraftText(container, text) {
     let italic = false;
     let underline = false;
     let strikethrough = false;
+    let obfuscated = false;
 
     let buffer = "";
 
@@ -34,6 +35,10 @@ export function renderMinecraftText(container, text) {
 
         const span = document.createElement("span");
         span.textContent = buffer;
+        if (obfuscated) {
+            span.classList.add("minecraft-obfuscated");
+            span.dataset.originalText = buffer;
+        }
 
         if (color) span.style.color = color;
         if (bold) span.style.fontWeight = "bold";
@@ -57,6 +62,7 @@ export function renderMinecraftText(container, text) {
         italic = false;
         underline = false;
         strikethrough = false;
+        obfuscated = false;
     }
 
     for (let i = 0; i < text.length; i++) {
@@ -70,6 +76,7 @@ export function renderMinecraftText(container, text) {
             italic = false;
             underline = false;
             strikethrough = false;
+            obfuscated = false;
             i += hexMatch[0].length - 1;
             continue;
         }
@@ -85,6 +92,7 @@ export function renderMinecraftText(container, text) {
                 italic = false;
                 underline = false;
                 strikethrough = false;
+                obfuscated = false;
                 i++;
                 continue;
             }
@@ -109,7 +117,7 @@ export function renderMinecraftText(container, text) {
                         resetFormatting();
                         break;
                     case "k":
-                        // Obfuscated text is not simulated in this preview.
+                        obfuscated = true;
                         break;
                 }
 
@@ -122,4 +130,19 @@ export function renderMinecraftText(container, text) {
     }
 
     flush();
+}
+
+
+// Minecraft's obfuscated (&k) text rapidly cycles through substitute glyphs.
+const OBFUSCATED_GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[]{}<>?/";
+if (typeof window !== "undefined" && !window.__motdObfuscationTimer) {
+    window.__motdObfuscationTimer = window.setInterval(() => {
+        document.querySelectorAll(".minecraft-obfuscated").forEach(span => {
+            const original = span.dataset.originalText || "";
+            span.textContent = Array.from(original, character => {
+                if (/\\s/.test(character)) return character;
+                return OBFUSCATED_GLYPHS[Math.floor(Math.random() * OBFUSCATED_GLYPHS.length)];
+            }).join("");
+        });
+    }, 75);
 }
