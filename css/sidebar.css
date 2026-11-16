@@ -144,3 +144,7 @@
     opacity: 0.45;
     cursor: not-allowed;
 }
+
+/* Keep app navigation clickable above page content. */
+.navigation { position:relative; z-index:20; }
+.navigation .nav-item { position:relative; z-index:21; pointer-events:auto; }
