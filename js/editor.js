@@ -58,21 +58,6 @@ function loadEditorState() {
         }
     }
 
-    const importedMotd = localStorage.getItem("motd-import-from-server");
-    if (importedMotd) {
-        localStorage.removeItem("motd-import-from-server");
-        try {
-            const decoded = JSON.parse(importedMotd);
-            if (decoded && typeof decoded.line1 === "string" && typeof decoded.line2 === "string"
-                && decoded.line1.length <= 100 && decoded.line2.length <= 100) {
-                line1.value = decoded.line1;
-                line2.value = decoded.line2;
-                saveEditorState();
-            }
-        } catch (error) {
-            console.warn("Ignoring invalid imported server MOTD.");
-        }
-    }
 }
 
 export function applyTemplate(firstLine, secondLine) {
@@ -84,23 +69,8 @@ export function applyTemplate(firstLine, secondLine) {
     line1.focus();
 }
 
-function importServerMotd(detail) {
-    if (!detail || typeof detail.line1 !== "string" || typeof detail.line2 !== "string"
-        || detail.line1.length > 100 || detail.line2.length > 100) return;
-
-    line1.value = detail.line1;
-    line2.value = detail.line2;
-    activeInput = line1;
-    saveEditorState();
-    updatePreview();
-}
-
 export function initializeEditor() {
     loadEditorState();
-    window.addEventListener("motd-studio:import-server-motd", event => {
-        importServerMotd(event.detail);
-    });
-
     line1.addEventListener("focus", () => {
         activeInput = line1;
     });
