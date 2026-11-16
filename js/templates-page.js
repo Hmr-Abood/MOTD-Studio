@@ -1,28 +1,35 @@
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from "./supabase-config.js";
 import { renderMinecraftText } from "./colors.js";
 
-const STORAGE_KEY = "motd-studio-custom-templates";
 const grid = document.getElementById("template-grid");
 const search = document.getElementById("template-search");
 const categoryFilter = document.getElementById("filter-category");
 const languageFilter = document.getElementById("filter-language");
 const styleFilter = document.getElementById("filter-style");
 const count = document.getElementById("template-count");
-let builtIn = [];
-let custom = [];
+const authForm = document.getElementById("community-auth-form");
+const authStatus = document.getElementById("auth-status");
+const accountState = document.getElementById("account-state");
+const signInButton = document.getElementById("sign-in-button");
+const signUpButton = document.getElementById("sign-up-button");
+const signOutButton = document.getElementById("sign-out-button");
+const submitButton = document.getElementById("submit-template-button");
+const createForm = document.getElementById("create-template-form");
+const createStatus = document.getElementById("create-status");
 
-function readCustomTemplates() {
-    try {
-        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-        return Array.isArray(saved) ? saved.filter(item =>
-            item && typeof item.name === "string" &&
-            typeof item.line1 === "string" && typeof item.line2 === "string"
-        ) : [];
-    } catch {
-        return [];
-    }
+let builtIn = [];
+let community = [];
+let currentUser = null;
+let isAdmin = false;
+let supabase = null;
+
+function setMessage(element, message, isError = false) {
+    element.textContent = message;
+    element.classList.toggle("message-error", isError);
 }
 
-function createCard(template, isCustom = false) {
+function createCard(template) {
     const card = document.createElement("article");
     card.className = "template-card";
     const header = document.createElement("div");
@@ -44,7 +51,7 @@ function createCard(template, isCustom = false) {
 
     const description = document.createElement("p");
     description.className = "template-description";
-    description.textContent = template.description;
+    description.textContent = template.description || "";
 
     const metadata = document.createElement("div");
     metadata.className = "template-metadata";
@@ -54,6 +61,8 @@ function createCard(template, isCustom = false) {
         metadata.appendChild(tag);
     });
 
+    const actions = document.createElement("div");
+    actions.className = "template-card-actions";
     const apply = document.createElement("button");
     apply.type = "button";
     apply.className = "template-apply";
@@ -63,21 +72,58 @@ function createCard(template, isCustom = false) {
         localStorage.setItem("motd-line-2", template.line2);
         window.location.href = "index.html#editor";
     });
-    card.append(header, preview, description, metadata, apply);
+    actions.appendChild(apply);
 
-    if (isCustom) {
+    if (template.status && template.status !== "approved") {
+        const status = document.createElement("span");
+        status.className = "template-review-status";
+        status.textContent = template.status === "pending" ? "Pending review" : "Rejected";
+        actions.appendChild(status);
+    }
+    if (template.id && template.status === "pending" && currentUser?.id === template.author_id) {
         const remove = document.createElement("button");
         remove.type = "button";
         remove.className = "template-delete";
-        remove.textContent = "Delete";
-        remove.addEventListener("click", () => {
-            custom = custom.filter(item => item.id !== template.id);
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(custom));
-            render();
+        remove.textContent = "Withdraw";
+        remove.addEventListener("click", async () => {
+            const { error } = await supabase.from("motd_templates").delete().eq("id", template.id);
+            if (error) setMessage(createStatus, "Could not withdraw this submission.", true);
+            else {
+                community = community.filter(item => item.id !== template.id);
+                render();
+            }
         });
-        card.appendChild(remove);
+        actions.appendChild(remove);
     }
+    if (isAdmin && template.id && template.status === "pending") {
+        const approve = document.createElement("button");
+        approve.type = "button";
+        approve.className = "template-review-button";
+        approve.textContent = "Approve";
+        approve.addEventListener("click", () => reviewTemplate(template.id, "approved"));
+        const reject = document.createElement("button");
+        reject.type = "button";
+        reject.className = "template-review-button reject";
+        reject.textContent = "Reject";
+        reject.addEventListener("click", () => reviewTemplate(template.id, "rejected"));
+        actions.append(approve, reject);
+    }
+
+    card.append(header, preview, description, metadata, actions);
     return card;
+}
+
+async function reviewTemplate(id, status) {
+    const { error } = await supabase.from("motd_templates").update({
+        status,
+        reviewed_at: new Date().toISOString(),
+        reviewed_by: currentUser.id
+    }).eq("id", id);
+    if (error) {
+        setMessage(authStatus, "Review action failed. Check your admin permissions.", true);
+        return;
+    }
+    await loadCommunityTemplates();
 }
 
 function render() {
@@ -85,7 +131,7 @@ function render() {
     const category = categoryFilter.value;
     const language = languageFilter.value;
     const style = styleFilter.value;
-    const all = [...builtIn, ...custom];
+    const all = [...builtIn, ...community];
     const visible = all.filter(template => {
         const searchable = [template.name, template.description, template.category, template.language, template.style].join(" ").toLocaleLowerCase();
         return (category === "All" || template.category === category) &&
@@ -98,52 +144,154 @@ function render() {
     if (!visible.length) {
         const empty = document.createElement("p");
         empty.className = "templates-empty";
-        empty.textContent = "No templates match these filters. Try changing your filters or create your own below.";
+        empty.textContent = "No templates match these filters.";
         grid.appendChild(empty);
         return;
     }
-    visible.forEach(template => grid.appendChild(createCard(template, custom.some(item => item.id === template.id))));
+    visible.forEach(template => grid.appendChild(createCard(template)));
 }
 
-[search, categoryFilter, languageFilter, styleFilter].forEach(control => control.addEventListener("input", render));
-
-document.getElementById("create-template-form").addEventListener("submit", event => {
-    event.preventDefault();
-    const template = {
-        id: `custom-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-        name: document.getElementById("custom-name").value.trim(),
-        language: document.getElementById("custom-language").value,
-        category: document.getElementById("custom-category").value,
-        style: document.getElementById("custom-style").value,
-        description: document.getElementById("custom-description").value.trim(),
-        line1: document.getElementById("custom-line-1").value,
-        line2: document.getElementById("custom-line-2").value
-    };
-    if (!template.name || !template.language || !template.category || !template.style ||
-        !template.description || !template.line1.trim() || !template.line2.trim()) return;
-    custom.push(template);
-    try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(custom));
-        event.currentTarget.reset();
-        document.getElementById("create-status").textContent = "Template saved in this browser.";
-        render();
-        document.getElementById("template-grid").scrollIntoView({ behavior: "smooth", block: "start" });
-    } catch {
-        custom.pop();
-        document.getElementById("create-status").textContent = "Could not save. Your browser storage may be full.";
-    }
-});
-
-async function initialize() {
-    custom = readCustomTemplates();
-    try {
-        const response = await fetch("./presets/templates.json");
-        if (!response.ok) throw new Error("Template list unavailable");
-        builtIn = await response.json();
-    } catch {
-        builtIn = [];
-        document.getElementById("create-status").textContent = "Built-in templates could not load. You can still create your own.";
+async function loadCommunityTemplates() {
+    if (!supabase) return;
+    const { data, error } = await supabase
+        .from("motd_templates")
+        .select("id,name,description,line1,line2,language,category,style,status,author_id,created_at")
+        .order("created_at", { ascending: false })
+        .limit(250);
+    if (error) {
+        setMessage(authStatus, "Community library could not load. Check your Supabase setup.", true);
+        community = [];
+    } else {
+        community = data || [];
     }
     render();
 }
-initialize();
+
+async function refreshSession() {
+    if (!supabase) return;
+    const { data } = await supabase.auth.getSession();
+    currentUser = data.session?.user || null;
+    isAdmin = false;
+    if (currentUser) {
+        const { data: adminResult } = await supabase.rpc("is_motd_admin");
+        isAdmin = adminResult === true;
+    }
+    const signedIn = Boolean(currentUser);
+    signInButton.hidden = signedIn;
+    signUpButton.hidden = signedIn;
+    signOutButton.hidden = !signedIn;
+    document.getElementById("community-email").disabled = signedIn;
+    document.getElementById("community-password").disabled = signedIn;
+    accountState.textContent = signedIn
+        ? `Signed in as ${currentUser.email}${isAdmin ? " · Administrator" : ""}`
+        : "Not signed in.";
+    submitButton.disabled = !signedIn;
+    createStatus.textContent = signedIn
+        ? "Your template will be reviewed before public listing."
+        : "Sign in above to submit a template.";
+    await loadCommunityTemplates();
+}
+
+async function initialize() {
+    const response = await fetch("./presets/templates.json");
+    if (response.ok) builtIn = await response.json();
+
+    [search, categoryFilter, languageFilter, styleFilter].forEach(control => control.addEventListener("input", render));
+
+    if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY ||
+        SUPABASE_URL.includes("YOUR_SUPABASE") ||
+        SUPABASE_PUBLISHABLE_KEY.includes("YOUR_SUPABASE")) {
+        setMessage(authStatus, "Community publishing is not connected yet. Add your Supabase project URL and publishable key to js/supabase-config.js.", true);
+        submitButton.disabled = true;
+        render();
+        return;
+    }
+
+    supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+    authForm.addEventListener("submit", async event => {
+        event.preventDefault();
+        const email = document.getElementById("community-email").value.trim();
+        const password = document.getElementById("community-password").value;
+        signInButton.disabled = true;
+        setMessage(authStatus, "Signing in...");
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        signInButton.disabled = false;
+        if (error) setMessage(authStatus, error.message, true);
+        else {
+            setMessage(authStatus, "Signed in.");
+            await refreshSession();
+        }
+    });
+
+    signUpButton.addEventListener("click", async () => {
+        const email = document.getElementById("community-email").value.trim();
+        const password = document.getElementById("community-password").value;
+        if (!email || password.length < 8) {
+            setMessage(authStatus, "Enter a valid email and a password with at least 8 characters.", true);
+            return;
+        }
+        signUpButton.disabled = true;
+        setMessage(authStatus, "Creating account...");
+        const { data, error } = await supabase.auth.signUp({ email, password });
+        signUpButton.disabled = false;
+        if (error) setMessage(authStatus, error.message, true);
+        else if (!data.session) setMessage(authStatus, "Check your email to confirm your account, then sign in.");
+        else {
+            setMessage(authStatus, "Account created.");
+            await refreshSession();
+        }
+    });
+
+    signOutButton.addEventListener("click", async () => {
+        const { error } = await supabase.auth.signOut();
+        if (error) setMessage(authStatus, error.message, true);
+        else {
+            setMessage(authStatus, "Signed out.");
+            await refreshSession();
+        }
+    });
+
+    createForm.addEventListener("submit", async event => {
+        event.preventDefault();
+        if (!currentUser) {
+            setMessage(createStatus, "Sign in before submitting a template.", true);
+            return;
+        }
+        const template = {
+            name: document.getElementById("custom-name").value.trim(),
+            language: document.getElementById("custom-language").value,
+            category: document.getElementById("custom-category").value,
+            style: document.getElementById("custom-style").value,
+            description: document.getElementById("custom-description").value.trim(),
+            line1: document.getElementById("custom-line-1").value,
+            line2: document.getElementById("custom-line-2").value,
+            author_id: currentUser.id
+        };
+        if (!template.name || !template.language || !template.category || !template.style ||
+            !template.description || !template.line1.trim() || !template.line2.trim()) return;
+        submitButton.disabled = true;
+        setMessage(createStatus, "Submitting for review...");
+        const { error } = await supabase.from("motd_templates").insert(template);
+        submitButton.disabled = false;
+        if (error) {
+            setMessage(createStatus, error.message.includes("submission limit")
+                ? "You have reached the submission limit. Try again later."
+                : "Submission failed. Check your fields and try again.", true);
+            return;
+        }
+        createForm.reset();
+        setMessage(createStatus, "Submitted. Your MOTD is now waiting for review.");
+        await loadCommunityTemplates();
+    });
+
+    supabase.auth.onAuthStateChange(() => {
+        window.setTimeout(refreshSession, 0);
+    });
+    await refreshSession();
+}
+
+initialize().catch(error => {
+    setMessage(authStatus, "Could not initialize the template library. Check your connection and configuration.", true);
+    console.error(error);
+});
