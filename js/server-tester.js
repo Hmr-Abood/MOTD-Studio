@@ -9,6 +9,8 @@ const addressInput = document.getElementById("server-address");
 const lookupButton = document.getElementById("server-lookup-button");
 const statusText = document.getElementById("tester-status");
 const result = document.getElementById("server-result");
+const openEditorLink = document.getElementById("open-motd-editor");
+let scannedMotd = null;
 
 function setText(id, value, fallback = "—") {
     document.getElementById(id).textContent = value || fallback;
@@ -43,8 +45,12 @@ function renderResult(data) {
     motd.replaceChildren();
     const rawLines = data.motd && Array.isArray(data.motd.raw) ? data.motd.raw : [];
     const cleanLines = data.motd && Array.isArray(data.motd.clean) ? data.motd.clean : [];
-    const lines = rawLines.length ? rawLines : (cleanLines.length ? cleanLines : ["No MOTD returned by this server."]);
-    lines.forEach(line => {
+    const lines = rawLines.length ? rawLines : cleanLines;
+    scannedMotd = lines.length ? {
+        line1: String(lines[0] || "").replace(/§/g, "&").slice(0, 100),
+        line2: String(lines[1] || "").replace(/§/g, "&").slice(0, 100)
+    } : null;
+    (lines.length ? lines : ["No MOTD returned by this server."]).forEach(line => {
         const paragraph = document.createElement("p");
         renderMinecraftText(paragraph, String(line).replace(/§/g, "&"));
         motd.appendChild(paragraph);
@@ -84,6 +90,21 @@ form.addEventListener("submit", event => {
 });
 
 document.getElementById("test-again-button").addEventListener("click", checkServer);
+
+openEditorLink.addEventListener("click", event => {
+    if (!scannedMotd) {
+        event.preventDefault();
+        statusText.textContent = "This server did not return a MOTD to import.";
+        return;
+    }
+
+    try {
+        localStorage.setItem("motd-import-from-server", JSON.stringify(scannedMotd));
+    } catch (error) {
+        event.preventDefault();
+        statusText.textContent = "Could not transfer the scanned MOTD. Please check your browser storage settings.";
+    }
+});
 
 const params = new URLSearchParams(window.location.search);
 const initialAddress = params.get("address");
