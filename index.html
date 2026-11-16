@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="css/sidebar.css">
     <link rel="stylesheet" href="css/preview.css">
     <link rel="stylesheet" href="css/editor.css">
+    <link rel="stylesheet" href="css/hex-picker.css">
 </head>
 <body>
     <div class="app">
@@ -171,6 +172,25 @@
                             <button type="button" data-code="&m"><s>S</s> Strike</button>
                             <button type="button" data-code="&r">Reset</button>
                         </div>
+                    </div>
+
+                    <div class="hex-picker">
+                        <div class="formatting-header">
+                            <label for="hex-color">CUSTOM HEX COLOR</label>
+                            <span>Choose any color</span>
+                        </div>
+
+                        <div class="hex-controls">
+                            <input type="color" id="hex-color" value="#55FFFF" aria-label="Choose a custom color">
+                            <input type="text" id="hex-value" value="#55FFFF" maxlength="7" spellcheck="false" aria-label="Hex color value">
+                            <button type="button" id="apply-hex">Insert Color</button>
+                        </div>
+
+                        <div class="hex-preview">
+                            <span id="hex-preview-swatch"></span>
+                            <span id="hex-preview-label">Preview: #55FFFF</span>
+                        </div>
+                        <p class="hex-error" id="hex-error" aria-live="polite"></p>
                     </div>
 
                     <div class="editor-actions">
