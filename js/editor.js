@@ -7,11 +7,13 @@ const line2 = document.getElementById("line2");
 const DEFAULT_LINE_1 = "&aWelcome to my server!";
 const DEFAULT_LINE_2 = "&bSurvival &8• &eEvents &8• &dCommunity";
 
+let activeInput = line1;
+
 function getActiveInput() {
-    return document.activeElement === line2 ? line2 : line1;
+    return activeInput;
 }
 
-function insertCode(code) {
+export function insertCode(code) {
     const input = getActiveInput();
 
     const start = input.selectionStart;
@@ -39,6 +41,14 @@ function loadEditorState() {
 
 export function initializeEditor() {
     loadEditorState();
+
+    line1.addEventListener("focus", () => {
+        activeInput = line1;
+    });
+
+    line2.addEventListener("focus", () => {
+        activeInput = line2;
+    });
 
     line1.addEventListener("input", () => {
         updatePreview();
