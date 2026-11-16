@@ -54,11 +54,28 @@
                     </select>
                 </div>
                 <div class="template-grid" id="template-grid" aria-live="polite"><p class="templates-loading">Loading templates...</p></div>
-                <p class="library-note">Your own templates are saved in this browser. They are not uploaded or shared.</p>
+                <p class="library-note">Community templates are shared globally. New submissions stay private to their creator until approved.</p>
+            </section>
+
+            <section class="panel auth-panel" id="community-account">
+                <div class="library-heading"><div><span class="eyebrow">COMMUNITY ACCOUNT</span><h2>Sign in to contribute</h2><p>Accounts are required to submit templates. Email confirmation helps protect the library from spam.</p></div></div>
+                <form id="community-auth-form">
+                    <div class="auth-fields">
+                        <label>Email address<input id="community-email" type="email" autocomplete="email" maxlength="254" required></label>
+                        <label>Password<input id="community-password" type="password" autocomplete="current-password" minlength="8" maxlength="72" required></label>
+                    </div>
+                    <div class="auth-actions">
+                        <button type="submit" class="create-button" id="sign-in-button">Sign in</button>
+                        <button type="button" class="auth-secondary" id="sign-up-button">Create account</button>
+                        <button type="button" class="auth-secondary" id="sign-out-button" hidden>Sign out</button>
+                        <span id="auth-status" role="status" aria-live="polite"></span>
+                    </div>
+                    <p class="auth-account-state" id="account-state">Not signed in.</p>
+                </form>
             </section>
 
             <section class="panel create-panel" id="create-template">
-                <div class="library-heading"><div><span class="eyebrow">YOUR COLLECTION</span><h2>Create a template</h2><p>Save your own MOTD with useful details so it is easy to find later.</p></div></div>
+                <div class="library-heading"><div><span class="eyebrow">COMMUNITY SUBMISSION</span><h2>Submit a template</h2><p>Your submission is reviewed before it appears in the public library.</p></div></div>
                 <form id="create-template-form">
                     <div class="form-grid">
                         <label>Template name<input id="custom-name" type="text" maxlength="40" placeholder="e.g. Arabic Survival" required></label>
@@ -71,7 +88,7 @@
                         <label>Line 1<input id="custom-line-1" type="text" maxlength="100" placeholder="&aWelcome to my server!" required></label>
                         <label>Line 2<input id="custom-line-2" type="text" maxlength="100" placeholder="&7Survival • Events • Community" required></label>
                     </div>
-                    <div class="create-actions"><p id="create-status" aria-live="polite"></p><button type="submit" class="create-button">Save template</button></div>
+                    <div class="create-actions"><p id="create-status" aria-live="polite">Sign in above to submit a template.</p><button type="submit" class="create-button" id="submit-template-button" disabled>Submit for review</button></div>
                 </form>
             </section>
         </div>
