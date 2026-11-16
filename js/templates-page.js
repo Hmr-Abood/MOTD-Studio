@@ -14,6 +14,9 @@ const accountState = document.getElementById("account-state");
 const signInButton = document.getElementById("sign-in-button");
 const signUpButton = document.getElementById("sign-up-button");
 const signOutButton = document.getElementById("sign-out-button");
+const forgotPasswordButton = document.getElementById("forgot-password-button");
+const passwordResetForm = document.getElementById("password-reset-form");
+const saveNewPasswordButton = document.getElementById("save-new-password-button");
 const submitButton = document.getElementById("submit-template-button");
 const createForm = document.getElementById("create-template-form");
 const createStatus = document.getElementById("create-status");
@@ -201,6 +204,7 @@ async function refreshSession() {
     signInButton.hidden = signedIn;
     signUpButton.hidden = signedIn;
     signOutButton.hidden = !signedIn;
+    forgotPasswordButton.hidden = signedIn;
     document.getElementById("community-email").disabled = signedIn;
     document.getElementById("community-password").disabled = signedIn;
     accountState.textContent = signedIn
@@ -264,6 +268,51 @@ async function initialize() {
         }
     });
 
+    forgotPasswordButton.addEventListener("click", async () => {
+        const email = document.getElementById("community-email").value.trim();
+        if (!email) {
+            setMessage(authStatus, "Enter your account email first.", true);
+            document.getElementById("community-email").focus();
+            return;
+        }
+        forgotPasswordButton.disabled = true;
+        setMessage(authStatus, "Sending password reset email...");
+        const redirectTo = new URL("templates.html?reset=true", window.location.href).toString();
+        const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
+        forgotPasswordButton.disabled = false;
+        if (error) {
+            setMessage(authStatus, "Could not send the reset email. Please try again.", true);
+        } else {
+            setMessage(authStatus, "If an account exists for that email, a password reset link has been sent.");
+        }
+    });
+
+    passwordResetForm.addEventListener("submit", async event => {
+        event.preventDefault();
+        const password = document.getElementById("new-password").value;
+        const confirmation = document.getElementById("confirm-new-password").value;
+        if (password.length < 8) {
+            setMessage(authStatus, "Your new password must contain at least 8 characters.", true);
+            return;
+        }
+        if (password !== confirmation) {
+            setMessage(authStatus, "The passwords do not match.", true);
+            return;
+        }
+        saveNewPasswordButton.disabled = true;
+        setMessage(authStatus, "Updating password...");
+        const { error } = await supabase.auth.updateUser({ password });
+        saveNewPasswordButton.disabled = false;
+        if (error) {
+            setMessage(authStatus, "Could not update your password. Open the latest reset email and try again.", true);
+        } else {
+            passwordResetForm.hidden = true;
+            passwordResetForm.reset();
+            setMessage(authStatus, "Password updated. You can now use your new password.");
+            await refreshSession();
+        }
+    });
+
     signOutButton.addEventListener("click", async () => {
         const { error } = await supabase.auth.signOut();
         if (error) setMessage(authStatus, error.message, true);
@@ -306,7 +355,12 @@ async function initialize() {
         await loadCommunityTemplates();
     });
 
-    supabase.auth.onAuthStateChange(() => {
+    supabase.auth.onAuthStateChange((event) => {
+        if (event === "PASSWORD_RECOVERY") {
+            passwordResetForm.hidden = false;
+            document.getElementById("new-password").focus();
+            setMessage(authStatus, "Choose a new password for your account.");
+        }
         window.setTimeout(refreshSession, 0);
     });
     await refreshSession();
