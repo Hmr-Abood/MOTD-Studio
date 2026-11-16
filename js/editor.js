@@ -41,7 +41,11 @@ function loadEditorState() {
     const sharedValue = new URLSearchParams(window.location.search).get("motd");
     if (sharedValue) {
         try {
-            const decoded = JSON.parse(decodeURIComponent(escape(atob(sharedValue.replace(/-/g, "+").replace(/_/g, "/")))));
+            const base64 = sharedValue.replace(/-/g, "+").replace(/_/g, "/");
+            const padded = base64 + "=".repeat((4 - base64.length % 4) % 4);
+            const binary = atob(padded);
+            const utf8 = Array.from(binary, character => "%" + character.charCodeAt(0).toString(16).padStart(2, "0")).join("");
+            const decoded = JSON.parse(decodeURIComponent(utf8));
             if (decoded && typeof decoded.line1 === "string" && typeof decoded.line2 === "string"
                 && decoded.line1.length <= 100 && decoded.line2.length <= 100) {
                 line1.value = decoded.line1;
@@ -95,7 +99,7 @@ export function initializeEditor() {
         const status = document.getElementById("copy-status");
         const payload = JSON.stringify({ line1: line1.value, line2: line2.value });
         const encoded = btoa(unescape(encodeURIComponent(payload)))
-            .replace(/\\+/g, "-").replace(/\\//g, "_").replace(/=+$/g, "");
+            .replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/g, "");
         const shareUrl = new URL(window.location.href);
         shareUrl.search = "";
         shareUrl.hash = "editor";
