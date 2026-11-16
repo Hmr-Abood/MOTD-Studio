@@ -27,8 +27,16 @@ let currentUser = null;
 let isAdmin = false;
 let supabase = null;
 
+const emailTipModal = document.getElementById("email-tip-modal");
+const emailTipClose = document.getElementById("email-tip-close");
+
 function showEmailTip() {
-    window.alert("Email tip: If you don't see your account confirmation or password reset email in your inbox, check your Spam or Junk folder. You can also search your inbox for “MOTD Studio”.");
+    emailTipModal.hidden = false;
+    emailTipClose.focus();
+}
+
+function closeEmailTip() {
+    emailTipModal.hidden = true;
 }
 
 function setMessage(element, message, isError = false) {
@@ -235,6 +243,14 @@ async function initialize() {
         render();
         return;
     }
+
+    emailTipClose.addEventListener("click", closeEmailTip);
+    emailTipModal.addEventListener("click", event => {
+        if (event.target === emailTipModal) closeEmailTip();
+    });
+    document.addEventListener("keydown", event => {
+        if (event.key === "Escape" && !emailTipModal.hidden) closeEmailTip();
+    });
 
     supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
