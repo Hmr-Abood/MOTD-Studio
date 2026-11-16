@@ -52,27 +52,16 @@
     flex: 0 0 30px;
     border: 1px solid #ffffff22;
     border-radius: 4px;
-    background-size: 12px 12px;
+    background-size: cover;
+    background-position: center;
 }
 .swatch-default { background: #08090b; }
-.swatch-dirt {
-    background-color: #79543b;
-    background-image: repeating-linear-gradient(45deg, #65452f 0 3px, transparent 3px 7px), repeating-linear-gradient(-45deg, #9b704e 0 2px, transparent 2px 8px);
-}
-.swatch-netherrack {
-    background-color: #713c3b;
-    background-image: repeating-linear-gradient(135deg, #a34e45 0 2px, transparent 2px 7px), repeating-linear-gradient(45deg, #4d292d 0 3px, transparent 3px 8px);
-}
-.swatch-end-stone {
-    background-color: #c5bd78;
-    background-image: repeating-linear-gradient(45deg, #e1d99a 0 2px, transparent 2px 7px), repeating-linear-gradient(-45deg, #928a55 0 2px, transparent 2px 8px);
-}
-.swatch-nether {
-    background: radial-gradient(ellipse, #ed5bce, #63205d 65%, #220e2b);
-}
-.swatch-end {
-    background: radial-gradient(ellipse, #8b65c8, #352653 55%, #100e20);
-}
+.swatch-dirt { background-image: url("../assets/images/dirt.png"); }
+.swatch-netherrack { background-image: url("../assets/images/netherrack.png"); }
+.swatch-end-stone { background-image: url("../assets/images/end-stone.png"); }
+.swatch-nether { background-image: url("../assets/images/nether-portal.png"); }
+.swatch-end { background-image: url("../assets/images/end-poem.png"); }
+
 .background-upload-row {
     display: flex;
     flex-wrap: wrap;
@@ -92,80 +81,23 @@
 }
 .background-upload:hover,
 .background-clear:hover { border-color: var(--accent); }
+
 .minecraft-window {
     background-position: center;
     background-size: cover;
     transition: background-image .2s ease;
 }
-.minecraft-window[data-preview-background="dirt"] {
-    background-color: #62442f;
-    background-image: repeating-linear-gradient(45deg, #765238 0 8px, transparent 8px 16px), repeating-linear-gradient(-45deg, #4d3628 0 7px, transparent 7px 16px);
-}
-.minecraft-window[data-preview-background="netherrack"] {
-    background-color: #673a39;
-    background-image: repeating-linear-gradient(135deg, #88453e 0 7px, transparent 7px 15px), repeating-linear-gradient(45deg, #3e292d 0 6px, transparent 6px 15px);
-}
-.minecraft-window[data-preview-background="end-stone"] {
-    background-color: #a79e62;
-    background-image: repeating-linear-gradient(45deg, #c8bf80 0 7px, transparent 7px 16px), repeating-linear-gradient(-45deg, #82794a 0 6px, transparent 6px 16px);
-}
-.minecraft-window[data-preview-background="nether-portal"] {
-    background-color: #321b3b;
-    background-image: radial-gradient(ellipse at center, #ed7bd4 0, #9d3d94 22%, #4b245d 55%, #211329 100%);
-}
-.minecraft-window[data-preview-background="end-portal"] {
-    background-color: #171126;
-    background-image: radial-gradient(ellipse at 30% 35%, #a18ae8 0, #57428c 16%, transparent 42%), radial-gradient(ellipse at 75% 65%, #6e55ad 0, #30234f 30%, transparent 60%), linear-gradient(135deg, #100d1b, #302044);
-}
+.minecraft-window[data-preview-background="dirt"] { background-image: url("../assets/images/dirt.png"); }
+.minecraft-window[data-preview-background="netherrack"] { background-image: url("../assets/images/netherrack.png"); }
+.minecraft-window[data-preview-background="end-stone"] { background-image: url("../assets/images/end-stone.png"); }
+.minecraft-window[data-preview-background="nether-portal"] { background-image: url("../assets/images/nether-portal.png"); }
+.minecraft-window[data-preview-background="end-portal"] { background-image: url("../assets/images/end-poem.png"); }
 .minecraft-window[data-custom-background="true"] {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
 }
+
 @media (max-width: 450px) {
     .background-presets { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
-
-/* Original Minecraft Wiki background images */
-.swatch-dirt {
-    background-image: url("../assets/images/dirt.png");
-    background-size: cover;
-    background-position: center;
-}
-.swatch-netherrack {
-    background-image: url("../assets/images/netherrack.png");
-    background-size: cover;
-    background-position: center;
-}
-.swatch-end-stone {
-    background-image: url("../assets/images/end-stone.png");
-    background-size: cover;
-    background-position: center;
-}
-.swatch-nether {
-    background-image: url("../assets/images/nether-portal.png");
-    background-size: cover;
-    background-position: center;
-}
-.swatch-end {
-    background-image: url("../assets/images/end-poem.png");
-    background-size: cover;
-    background-position: center;
-}
-
-.minecraft-window[data-preview-background="dirt"] {
-    background-image: url("../assets/images/dirt.png");
-}
-.minecraft-window[data-preview-background="netherrack"] {
-    background-image: url("../assets/images/netherrack.png");
-}
-.minecraft-window[data-preview-background="end-stone"] {
-    background-image: url("../assets/images/end-stone.png");
-}
-.minecraft-window[data-preview-background="nether-portal"] {
-    background-image: url("../assets/images/nether-portal.png");
-}
-.minecraft-window[data-preview-background="end-portal"] {
-    background-image: url("../assets/images/end-poem.png");
 }
