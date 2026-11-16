@@ -13,8 +13,8 @@ function updateCharacterCounts() {
     const count1 = document.getElementById("count-1");
     const count2 = document.getElementById("count-2");
 
-    if (count1) count1.textContent = `${line1.value.length} / 100`;
-    if (count2) count2.textContent = `${line2.value.length} / 100`;
+    if (count1) count1.textContent = `${line1.value.length} / 500`;
+    if (count2) count2.textContent = `${line2.value.length} / 500`;
 }
 
 function getActiveInput() {
@@ -58,7 +58,7 @@ function loadEditorState() {
             const utf8 = Array.from(binary, character => "%" + character.charCodeAt(0).toString(16).padStart(2, "0")).join("");
             const decoded = JSON.parse(decodeURIComponent(utf8));
             if (decoded && typeof decoded.line1 === "string" && typeof decoded.line2 === "string"
-                && decoded.line1.length <= 100 && decoded.line2.length <= 100) {
+                && decoded.line1.length <= 500 && decoded.line2.length <= 500) {
                 line1.value = decoded.line1;
                 line2.value = decoded.line2;
                 saveEditorState();
