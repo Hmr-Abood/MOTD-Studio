@@ -5,21 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0c0d10">
-    <meta name="description" content="Create, customize and preview Minecraft server MOTDs with MOTD Studio.">
 
-    <title>MOTD Studio — Minecraft MOTD Generator</title>
+    <title>MOTD Studio</title>
+    <meta name="description" content="Create and customize Minecraft server MOTDs with MOTD Studio.">
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/preview.css">
+    <link rel="stylesheet" href="css/editor.css">
 </head>
 <body>
-
     <div class="app">
 
-        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="brand">
                 <div class="brand-icon">M</div>
-                <div>
+                <div class="brand-text">
                     <h2>MOTD Studio</h2>
                     <span>Minecraft Tools</span>
                 </div>
@@ -27,72 +28,64 @@
 
             <div class="nav-label">WORKSPACE</div>
 
-            <nav>
+            <nav class="navigation">
                 <a href="#" class="nav-item active">
-                    <span>◈</span> MOTD Editor
+                    <span class="nav-icon">◈</span>
+                    MOTD Editor
                 </a>
-
                 <a href="#" class="nav-item">
-                    <span>▦</span> Templates
+                    <span class="nav-icon">▦</span>
+                    Templates
                 </a>
-
                 <a href="#" class="nav-item">
-                    <span>◉</span> Server Icon
+                    <span class="nav-icon">◉</span>
+                    Server Icon
                 </a>
             </nav>
 
             <div class="sidebar-bottom">
                 <div class="version">MOTD Studio <span>v1.0.0</span></div>
-                <a href="https://github.com" target="_blank">GitHub Repository ↗</a>
+                <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+                    GitHub Repository ↗
+                </a>
             </div>
         </aside>
 
-        <!-- Main content -->
         <main class="main">
-
             <header class="topbar">
                 <div>
                     <h1>MOTD Editor</h1>
                     <p>Create and customize your Minecraft server description.</p>
                 </div>
 
-                <div class="topbar-actions">
-                    <span class="status">
-                        <span class="status-dot"></span>
-                        All changes saved locally
-                    </span>
+                <div class="save-status">
+                    <span class="status-dot"></span>
+                    Saved locally
                 </div>
             </header>
 
             <div class="content">
 
-                <!-- Minecraft Preview -->
                 <section class="panel preview-panel">
-
                     <div class="panel-header">
                         <div>
                             <h2>Live Preview</h2>
                             <p>See how your MOTD appears in Minecraft.</p>
                         </div>
-
-                        <span class="preview-badge">PREVIEW</span>
+                        <span class="panel-tag">PREVIEW</span>
                     </div>
 
                     <div class="minecraft-window">
-
                         <div class="server-entry">
-
                             <div class="server-icon">
                                 <span>⛏</span>
                             </div>
 
                             <div class="server-info">
                                 <h3>My Minecraft Server</h3>
-
                                 <div class="motd-line" id="preview-line-1">
                                     Welcome to my server!
                                 </div>
-
                                 <div class="motd-line" id="preview-line-2">
                                     Survival • Events • Community
                                 </div>
@@ -100,33 +93,25 @@
 
                             <div class="server-players">
                                 <div class="connection-bars">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
+                                    <span></span><span></span><span></span>
+                                    <span></span><span></span>
                                 </div>
                                 <span>24/100</span>
                             </div>
-
                         </div>
-
                     </div>
 
                     <div class="preview-footer">
-                        <span>Java Edition Server Preview</span>
-                        <span>1920 × 1080</span>
+                        <span>Java Edition Preview</span>
+                        <span>Server List</span>
                     </div>
-
                 </section>
 
-                <!-- Editor -->
                 <section class="panel editor-panel">
-
                     <div class="panel-header">
                         <div>
                             <h2>MOTD Configuration</h2>
-                            <p>Edit your server's two-line description.</p>
+                            <p>Customize your server's two-line description.</p>
                         </div>
                     </div>
 
@@ -139,6 +124,7 @@
                             value="&aWelcome to my server!"
                             placeholder="Enter first line..."
                         >
+                        <span class="character-count" id="count-1">22 / 100</span>
                     </div>
 
                     <div class="field">
@@ -150,67 +136,63 @@
                             value="&bSurvival &8• &eEvents &8• &dCommunity"
                             placeholder="Enter second line..."
                         >
+                        <span class="character-count" id="count-2">39 / 100</span>
                     </div>
 
                     <div class="formatting">
                         <div class="formatting-header">
-                            <label>FORMATTING</label>
-                            <span>Minecraft color codes</span>
+                            <label>COLORS</label>
+                            <span>Minecraft formatting codes</span>
                         </div>
 
                         <div class="color-grid">
-                            <button data-code="&0" class="color black" title="Black"></button>
-                            <button data-code="&1" class="color dark-blue" title="Dark Blue"></button>
-                            <button data-code="&2" class="color dark-green" title="Dark Green"></button>
-                            <button data-code="&3" class="color dark-aqua" title="Dark Aqua"></button>
-                            <button data-code="&4" class="color dark-red" title="Dark Red"></button>
-                            <button data-code="&5" class="color dark-purple" title="Dark Purple"></button>
-                            <button data-code="&6" class="color gold" title="Gold"></button>
-                            <button data-code="&7" class="color gray" title="Gray"></button>
-                            <button data-code="&8" class="color dark-gray" title="Dark Gray"></button>
-                            <button data-code="&9" class="color blue" title="Blue"></button>
-                            <button data-code="&a" class="color green" title="Green"></button>
-                            <button data-code="&b" class="color aqua" title="Aqua"></button>
-                            <button data-code="&c" class="color red" title="Red"></button>
-                            <button data-code="&d" class="color light-purple" title="Light Purple"></button>
-                            <button data-code="&e" class="color yellow" title="Yellow"></button>
-                            <button data-code="&f" class="color white" title="White"></button>
+                            <button type="button" data-code="&0" class="color black" aria-label="Black"></button>
+                            <button type="button" data-code="&1" class="color dark-blue" aria-label="Dark blue"></button>
+                            <button type="button" data-code="&2" class="color dark-green" aria-label="Dark green"></button>
+                            <button type="button" data-code="&3" class="color dark-aqua" aria-label="Dark aqua"></button>
+                            <button type="button" data-code="&4" class="color dark-red" aria-label="Dark red"></button>
+                            <button type="button" data-code="&5" class="color dark-purple" aria-label="Dark purple"></button>
+                            <button type="button" data-code="&6" class="color gold" aria-label="Gold"></button>
+                            <button type="button" data-code="&7" class="color gray" aria-label="Gray"></button>
+                            <button type="button" data-code="&8" class="color dark-gray" aria-label="Dark gray"></button>
+                            <button type="button" data-code="&9" class="color blue" aria-label="Blue"></button>
+                            <button type="button" data-code="&a" class="color green" aria-label="Green"></button>
+                            <button type="button" data-code="&b" class="color aqua" aria-label="Aqua"></button>
+                            <button type="button" data-code="&c" class="color red" aria-label="Red"></button>
+                            <button type="button" data-code="&d" class="color light-purple" aria-label="Light purple"></button>
+                            <button type="button" data-code="&e" class="color yellow" aria-label="Yellow"></button>
+                            <button type="button" data-code="&f" class="color white" aria-label="White"></button>
                         </div>
 
                         <div class="format-buttons">
-                            <button data-code="&l"><b>B</b> Bold</button>
-                            <button data-code="&o"><i>I</i> Italic</button>
-                            <button data-code="&n"><u>U</u> Underline</button>
-                            <button data-code="&m"><s>S</s> Strike</button>
-                            <button data-code="&r">Reset</button>
+                            <button type="button" data-code="&l"><b>B</b> Bold</button>
+                            <button type="button" data-code="&o"><i>I</i> Italic</button>
+                            <button type="button" data-code="&n"><u>U</u> Underline</button>
+                            <button type="button" data-code="&m"><s>S</s> Strike</button>
+                            <button type="button" data-code="&r">Reset</button>
                         </div>
                     </div>
 
                     <div class="editor-actions">
-                        <button class="secondary-button" id="reset-button">
+                        <button type="button" class="secondary-button" id="reset-button">
                             Reset
                         </button>
-
-                        <button class="primary-button" id="copy-button">
+                        <button type="button" class="primary-button" id="copy-button">
                             Copy MOTD
                         </button>
                     </div>
 
-                    <div class="copy-status" id="copy-status"></div>
-
+                    <div class="copy-status" id="copy-status" aria-live="polite"></div>
                 </section>
 
             </div>
 
             <footer>
-                MOTD Studio <span>·</span> Made for Minecraft server owners
+                MOTD Studio <span>·</span> Minecraft server customization
             </footer>
-
         </main>
-
     </div>
 
-    <script src="script.js"></script>
-
+    <script type="module" src="js/main.js"></script>
 </body>
 </html>
