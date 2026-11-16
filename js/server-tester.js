@@ -1,3 +1,5 @@
+import { renderMinecraftText } from "./colors.js";
+
 const form = document.getElementById("server-lookup-form");
 const addressInput = document.getElementById("server-address");
 const lookupButton = document.getElementById("server-lookup-button");
@@ -35,10 +37,12 @@ function renderResult(data) {
 
     const motd = document.getElementById("result-motd");
     motd.replaceChildren();
-    const lines = data.motd && data.motd.clean && data.motd.clean.length ? data.motd.clean : ["No MOTD returned by this server."];
+    const rawLines = data.motd && Array.isArray(data.motd.raw) ? data.motd.raw : [];
+    const cleanLines = data.motd && Array.isArray(data.motd.clean) ? data.motd.clean : [];
+    const lines = rawLines.length ? rawLines : (cleanLines.length ? cleanLines : ["No MOTD returned by this server."]);
     lines.forEach(line => {
         const paragraph = document.createElement("p");
-        paragraph.textContent = line;
+        renderMinecraftText(paragraph, String(line).replace(/§/g, "&"));
         motd.appendChild(paragraph);
     });
 }
@@ -60,7 +64,7 @@ async function checkServer() {
         if (!response.ok) throw new Error(data.error || "Unable to check this server.");
         renderResult(data);
         statusText.textContent = data.online
-            ? "Server is online. Status may be cached briefly by the provider."
+            ? "Server is online. The status provider caches results for up to 5 minutes."
             : "The address was checked, but the server appears to be offline or unreachable.";
     } catch (error) {
         statusText.textContent = error.message || "Something went wrong. Please try again.";
