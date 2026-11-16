@@ -103,6 +103,45 @@
                         </div>
                     </div>
 
+                    <div class="preview-background-controls">
+                        <div class="background-control-heading">
+                            <label>PREVIEW BACKGROUND</label>
+                            <span>Change the scene behind your server row</span>
+                        </div>
+                        <div class="background-presets" id="background-presets">
+                            <button type="button" class="background-option active" data-background="default" aria-pressed="true">
+                                <span class="background-swatch swatch-default"></span>
+                                <span>Default</span>
+                            </button>
+                            <button type="button" class="background-option" data-background="dirt" aria-pressed="false">
+                                <span class="background-swatch swatch-dirt"></span>
+                                <span>Dirt</span>
+                            </button>
+                            <button type="button" class="background-option" data-background="netherrack" aria-pressed="false">
+                                <span class="background-swatch swatch-netherrack"></span>
+                                <span>Netherrack</span>
+                            </button>
+                            <button type="button" class="background-option" data-background="end-stone" aria-pressed="false">
+                                <span class="background-swatch swatch-end-stone"></span>
+                                <span>End Stone</span>
+                            </button>
+                            <button type="button" class="background-option" data-background="nether-portal" aria-pressed="false">
+                                <span class="background-swatch swatch-nether"></span>
+                                <span>Nether Portal</span>
+                            </button>
+                            <button type="button" class="background-option" data-background="end-portal" aria-pressed="false">
+                                <span class="background-swatch swatch-end"></span>
+                                <span>End Portal</span>
+                            </button>
+                        </div>
+                        <div class="background-upload-row">
+                            <label class="background-upload" for="background-upload">Upload image</label>
+                            <input type="file" id="background-upload" accept="image/png,image/jpeg,image/webp" hidden>
+                            <button type="button" id="clear-background" class="background-clear">Remove image</button>
+                            <span id="background-status" aria-live="polite"></span>
+                        </div>
+                    </div>
+
                     <div class="preview-footer">
                         <span>Java Edition Preview</span>
                         <span>Server List</span>
