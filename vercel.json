@@ -41,5 +41,19 @@
       "source": "/server-tester",
       "destination": "/server-tester.html"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "view",
+          "value": "server-tester"
+        }
+      ],
+      "destination": "/server-tester",
+      "permanent": false
+    }
   ]
 }
