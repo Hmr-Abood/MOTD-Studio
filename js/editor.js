@@ -9,6 +9,14 @@ const DEFAULT_LINE_2 = "&bSurvival &8• &eEvents &8• &dCommunity";
 
 let activeInput = line1;
 
+function updateCharacterCounts() {
+    const count1 = document.getElementById("count-1");
+    const count2 = document.getElementById("count-2");
+
+    if (count1) count1.textContent = `${line1.value.length} / 100`;
+    if (count2) count2.textContent = `${line2.value.length} / 100`;
+}
+
 function getActiveInput() {
     return activeInput;
 }
@@ -22,6 +30,7 @@ export function insertCode(code) {
     input.setRangeText(code, start, end, "end");
     input.focus();
 
+    updateCharacterCounts();
     updatePreview();
     saveEditorState();
 }
@@ -37,6 +46,8 @@ function loadEditorState() {
 
     if (savedLine1 !== null) line1.value = savedLine1;
     if (savedLine2 !== null) line2.value = savedLine2;
+
+    updateCharacterCounts();
 
     const sharedValue = new URLSearchParams(window.location.search).get("motd");
     if (sharedValue) {
@@ -64,6 +75,7 @@ export function applyTemplate(firstLine, secondLine) {
     line1.value = firstLine;
     line2.value = secondLine;
     activeInput = line1;
+    updateCharacterCounts();
     saveEditorState();
     updatePreview();
     line1.focus();
@@ -80,11 +92,13 @@ export function initializeEditor() {
     });
 
     line1.addEventListener("input", () => {
+        updateCharacterCounts();
         updatePreview();
         saveEditorState();
     });
 
     line2.addEventListener("input", () => {
+        updateCharacterCounts();
         updatePreview();
         saveEditorState();
     });
@@ -116,6 +130,7 @@ export function initializeEditor() {
         line1.value = DEFAULT_LINE_1;
         line2.value = DEFAULT_LINE_2;
 
+        updateCharacterCounts();
         saveEditorState();
         updatePreview();
     });
