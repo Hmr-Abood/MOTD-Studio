@@ -1,69 +1,71 @@
-# Supabase setup for MOTD Studio
+# Supabase setup
 
-This connects the GitHub Pages site to a shared community template library.
+This guide connects the MOTD Studio website to its shared community template library.
 
-## 1. Create a Supabase project
+## 1. Open the Supabase project
 
-1. Create a project at https://supabase.com/dashboard.
-2. Choose a strong database password and keep it private.
-3. Open **Project Settings → API Keys** (or the project's **Connect** dialog).
-4. Copy the **Project URL** and the **Publishable key** (starts with `sb_publishable_`).
-5. Do not copy a Secret key or legacy `service_role` key into this repository.
+Create a project at https://supabase.com/dashboard, or open the project you want to use.
 
-## 2. Create the database safely
+Under **Project Settings → API Keys** (or the project's **Connect** dialog), copy:
+- The project URL.
+- The publishable key (starts with sb_publishable_).
 
-1. Open **SQL Editor → New query** in your Supabase project.
-2. Paste the full contents of `supabase/migrations/001_community_templates.sql`.
-3. Run it once and confirm it completes successfully.
+The publishable key is intended for browser use. Never use a Secret key or legacy service_role key in frontend code.
 
-The migration enables RLS on the exposed templates table and private admin/rate-limit tables, revokes broad table permissions, allows public reads only for approved templates, requires authenticated authors for submissions, restricts moderation to a private admin allowlist, and limits accounts to five submissions per rolling 24 hours. The rate-limit ledger is separate from template rows, so withdrawing a pending submission does not reset the limit.
+## 2. Create the database
+
+1. Open **SQL Editor → New query**.
+2. Paste the contents of supabase/migrations/001_community_templates.sql.
+3. Run the migration and confirm it completes successfully.
+
+The migration enables Row Level Security, limits public reads to approved templates, restricts moderation to a private administrator allowlist, and enforces the per-account submission limit.
 
 ## 3. Configure the website
 
-Edit `js/supabase-config.js` and replace the two placeholders:
+Set the project URL and publishable key in js/supabase-config.js:
 
-- `YOUR_SUPABASE_PROJECT_URL` with the Project URL.
-- `YOUR_SUPABASE_PUBLISHABLE_KEY` with the Publishable key.
+    export const SUPABASE_URL = "https://YOUR_PROJECT_ID.supabase.co";
+    export const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_YOUR_KEY";
 
-The publishable key is intentionally visible in browser code. Database RLS is the security boundary. Never put a Secret or service_role key in this file.
+These values are public browser configuration. Do not add database passwords, SMTP credentials, or Supabase secret/service-role keys to this file or the repository.
 
-## 4. Configure authentication
+## 4. Configure authentication URLs
 
 In Supabase **Authentication → URL Configuration**:
 
-- Set Site URL to your deployed GitHub Pages URL, for example `https://hmr-abood.github.io/MOTD-Studio/`.
-- Add that same URL to the Redirect URLs allowlist.
+- Set **Site URL** to https://motdedtior.vercel.app.
+- Add https://motdedtior.vercel.app/** to the allowed Redirect URLs.
 - Keep email confirmation enabled.
-- Configure SMTP/custom email delivery before inviting public users; the default email service has strict limits.
 
-Create your own account from the Templates page and confirm the email before continuing.
+For local development, add your local origin (for example, http://localhost:8000/**) to the Redirect URLs.
 
-## 5. Make yourself the moderator
+Configure a custom SMTP provider in Supabase before opening registration to the public. Keep SMTP credentials in the Supabase dashboard, not in this repository.
 
-After your account is confirmed, open SQL Editor and run this command, replacing the email with the exact email used for your account:
+## 5. Add the administrator account
 
-```sql
-insert into private.motd_admins (user_id)
-select id from auth.users where lower(email) = lower('YOUR_ACCOUNT_EMAIL')
-on conflict (user_id) do nothing;
-```
+1. Create an account through the Templates page.
+2. Confirm the account's email.
+3. In Supabase SQL Editor, run the following query after replacing the email:
 
-This is a one-time dashboard-only admin action. Never add an admin-management control to the public website. The private allowlist is not exposed through the Data API.
+    insert into private.motd_admins (user_id)
+    select id
+    from auth.users
+    where lower(email) = lower('YOUR_ACCOUNT_EMAIL')
+    on conflict (user_id) do nothing;
 
-## 6. Verify the security rules
+This is a dashboard-only administrator setup step. Do not add public admin-management controls to the website.
 
-- Open **Database → Tables → motd_templates** and confirm RLS is enabled.
-- Open **Database → Policies** and confirm the policies from the migration exist.
-- Open **Security Advisor** and review any findings.
-- Test signed-out browsing: only approved templates should appear.
-- Test a new account: it should be able to submit, but not approve or publish.
-- Test the moderator account: it should see pending submissions and approve/reject them.
+## 6. Verify the setup
+
+- Confirm Row Level Security is enabled for the exposed templates table.
+- Review the policies created by the migration.
+- Test browsing while signed out: only approved templates should be visible.
+- Test a normal account: it can submit templates but cannot approve them.
+- Test the administrator account: it can review pending submissions.
 
 ## Notes
 
-- Community submissions are stored globally; the original built-in presets remain bundled with the site.
-- Pending submissions are visible only to their author and moderators.
-- Rejected submissions remain visible to their author and moderators, not to the public.
-- Users can withdraw their own pending submissions.
-- This first version intentionally has no public likes, comments, uploads, or arbitrary HTML.
-- The database limits submissions to five per account per rolling 24 hours. Email confirmation and RLS reduce abuse, but they do not replace CAPTCHA or dedicated abuse monitoring at larger scale.
+- Built-in templates are stored in presets/templates.json; community submissions are stored in Supabase.
+- Pending and rejected submissions are not shown publicly.
+- The submission limit is enforced in the database, not just by browser code.
+- Email confirmation and Row Level Security help reduce abuse, but they do not replace CAPTCHA or dedicated abuse monitoring for a large public service.
