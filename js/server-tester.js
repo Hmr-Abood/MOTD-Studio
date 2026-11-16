@@ -104,12 +104,14 @@ openEditorLink.addEventListener("click", event => {
         line1: scannedMotd.line1,
         line2: scannedMotd.line2
     });
-    const encoded = btoa(unescape(encodeURIComponent(payload)))
-        .replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/g, "");
-    const editorUrl = "/?motd=" + encoded;
 
-    // Always leave the tester and open the standalone editor page.
-    window.top.location.assign(editorUrl);
+    try {
+        // Same-tab session storage survives navigation and avoids URL/local autosave conflicts.
+        sessionStorage.setItem("motd-import-from-server", payload);
+        window.top.location.href = "/";
+    } catch (error) {
+        statusText.textContent = "Could not transfer the scanned MOTD. Please allow site storage and try again.";
+    }
 });
 
 const params = new URLSearchParams(window.location.search);
