@@ -99,10 +99,20 @@ openEditorLink.addEventListener("click", event => {
     }
 
     event.preventDefault();
+
+    if (window.parent !== window) {
+        window.parent.postMessage({
+            type: "MOTD_STUDIO_IMPORT_SERVER_MOTD",
+            line1: scannedMotd.line1,
+            line2: scannedMotd.line2
+        }, window.location.origin);
+        return;
+    }
+
     const payload = JSON.stringify(scannedMotd);
     const encoded = btoa(unescape(encodeURIComponent(payload)))
         .replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/g, "");
-    window.top.location.href = "/?motd=" + encoded;
+    window.location.href = "/?motd=" + encoded;
 });
 
 const params = new URLSearchParams(window.location.search);
