@@ -100,19 +100,16 @@ openEditorLink.addEventListener("click", event => {
 
     event.preventDefault();
 
-    if (window.parent !== window) {
-        window.parent.postMessage({
-            type: "MOTD_STUDIO_IMPORT_SERVER_MOTD",
-            line1: scannedMotd.line1,
-            line2: scannedMotd.line2
-        }, window.location.origin);
-        return;
-    }
-
-    const payload = JSON.stringify(scannedMotd);
+    const payload = JSON.stringify({
+        line1: scannedMotd.line1,
+        line2: scannedMotd.line2
+    });
     const encoded = btoa(unescape(encodeURIComponent(payload)))
         .replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/g, "");
-    window.location.href = "/?motd=" + encoded;
+    const editorUrl = "/?motd=" + encoded;
+
+    // Always leave the tester and open the standalone editor page.
+    window.top.location.assign(editorUrl);
 });
 
 const params = new URLSearchParams(window.location.search);
