@@ -1,4 +1,3 @@
-
 .panel-tag {
     padding: 5px 8px;
     border: 1px solid #303e54;
@@ -9,8 +8,9 @@
     letter-spacing: 0.7px;
 }
 
+/* Minecraft Java server-list preview */
 .minecraft-window {
-    padding: 15px;
+    padding: 12px;
     background: #08090b;
     border: 1px solid #30333a;
     border-radius: 7px;
@@ -19,18 +19,20 @@
 .server-entry {
     display: flex;
     align-items: center;
-    gap: 13px;
+    gap: 7px;
     min-height: 72px;
-    padding: 10px;
-    background: #24252a;
-    border: 1px solid #34363e;
-    font-family: Arial, sans-serif;
+    padding: 2px 5px;
+    overflow: hidden;
+    background: #000;
+    border: 2px solid #a0a0a0;
+    box-shadow: inset 0 0 0 1px #555;
+    font-family: "Minecraft", monospace;
 }
 
 .server-icon {
-    width: 48px;
-    height: 48px;
-    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    flex: 0 0 64px;
     overflow: hidden;
     background: #111;
 }
@@ -44,53 +46,71 @@
 }
 
 .server-info {
-    flex: 1;
+    flex: 1 1 auto;
     min-width: 0;
     overflow: hidden;
+    font-family: "Minecraft", monospace;
 }
 
 .server-info h3 {
-    margin-bottom: 5px;
+    margin: 0 0 2px;
+    overflow: hidden;
     color: #fff;
-    font-size: 14px;
+    font-family: "Minecraft", monospace;
+    font-size: 15px;
     font-weight: 400;
+    line-height: 18px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .motd-line {
     overflow: hidden;
     color: #fff;
-    font-size: 12px;
-    line-height: 17px;
+    font-family: "Minecraft", monospace;
+    font-size: 13px;
+    line-height: 16px;
     white-space: pre;
 }
 
 .server-players {
     display: flex;
-    flex-shrink: 0;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 5px;
-    color: #b9b9b9;
-    font-size: 10px;
+    flex: 0 0 auto;
+    align-self: flex-start;
+    align-items: center;
+    gap: 4px;
+    margin: 2px 1px 0 4px;
+    color: #bdbdbd;
+    font-family: "Minecraft", monospace;
+    font-size: 11px;
+    line-height: 14px;
+    white-space: nowrap;
+}
+
+.player-count {
+    color: #bdbdbd;
 }
 
 .connection-bars {
     display: flex;
     align-items: flex-end;
-    gap: 2px;
-    height: 15px;
+    gap: 1px;
+    width: 16px;
+    height: 13px;
 }
 
 .connection-bars span {
-    width: 3px;
-    height: 6px;
-    background: #52d16d;
+    display: block;
+    width: 2px;
+    height: 4px;
+    background: #00d83b;
+    box-shadow: 0 0 1px #00d83b;
 }
 
-.connection-bars span:nth-child(2) { height: 8px; }
-.connection-bars span:nth-child(3) { height: 10px; }
-.connection-bars span:nth-child(4) { height: 12px; }
-.connection-bars span:nth-child(5) { height: 15px; }
+.connection-bars span:nth-child(2) { height: 6px; }
+.connection-bars span:nth-child(3) { height: 8px; }
+.connection-bars span:nth-child(4) { height: 10px; }
+.connection-bars span:nth-child(5) { height: 12px; }
 
 .preview-footer {
     display: flex;
@@ -100,22 +120,40 @@
     font-size: 10px;
 }
 
-@media (max-width: 450px) {
+@media (max-width: 520px) {
+    .minecraft-window {
+        padding: 8px;
+    }
+
     .server-entry {
-        gap: 8px;
-        padding: 7px;
+        gap: 6px;
+        padding: 2px 4px;
     }
 
     .server-icon {
-        width: 38px;
-        height: 38px;
+        width: 48px;
+        height: 48px;
+        flex-basis: 48px;
     }
 
     .server-info h3 {
         font-size: 12px;
+        line-height: 15px;
     }
 
     .motd-line {
         font-size: 10px;
+        line-height: 13px;
+    }
+
+    .server-players {
+        gap: 3px;
+        margin-left: 2px;
+        font-size: 9px;
+    }
+
+    .connection-bars {
+        transform: scale(.85);
+        transform-origin: right center;
     }
 }
