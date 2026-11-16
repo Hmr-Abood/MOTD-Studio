@@ -237,6 +237,29 @@
                     <div class="copy-status" id="copy-status" aria-live="polite"></div>
                 </section>
 
+                <section class="panel templates-panel" id="templates">
+                    <div class="panel-header">
+                        <div>
+                            <h2>MOTD Templates</h2>
+                            <p>Choose a style and apply it to your server description.</p>
+                        </div>
+                        <span class="panel-tag">PRESETS</span>
+                    </div>
+                    <div class="template-toolbar">
+                        <input type="search" id="template-search" placeholder="Search templates..." aria-label="Search templates">
+                        <div class="template-filters" id="template-filters" aria-label="Filter templates">
+                            <button type="button" class="template-filter active" data-filter="All">All</button>
+                            <button type="button" class="template-filter" data-filter="Survival">Survival</button>
+                            <button type="button" class="template-filter" data-filter="PvP">PvP</button>
+                            <button type="button" class="template-filter" data-filter="Creative">Creative</button>
+                            <button type="button" class="template-filter" data-filter="Network">Network</button>
+                        </div>
+                    </div>
+                    <div class="template-grid" id="template-grid" aria-live="polite">
+                        <p class="templates-loading">Loading templates...</p>
+                    </div>
+                </section>
+
             </div>
 
             <footer>
