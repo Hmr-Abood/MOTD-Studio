@@ -55,3 +55,10 @@
 .template-review-button.reject { border-color:#704343; background:#291819; color:#e99a9a; }
 .template-delete { padding:7px 4px; margin:0; }
 @media(max-width:600px) { .auth-fields { grid-template-columns:1fr; } }
+
+
+/* Password recovery */
+.password-reset-form { display:flex; flex-direction:column; gap:12px; margin-top:16px; padding:16px; border:1px solid var(--border); border-radius:8px; background:#0d0f13; }
+.password-reset-form h3 { font-size:13px; }
+.password-reset-form > p { color:var(--muted); font-size:11px; }
+.password-reset-form .auth-fields { margin-top:4px; }
