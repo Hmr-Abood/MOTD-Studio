@@ -80,12 +80,33 @@ function createCard(template) {
         status.textContent = template.status === "pending" ? "Pending review" : "Rejected";
         actions.appendChild(status);
     }
-    if (template.id && template.status === "pending" && currentUser?.id === template.author_id) {
+    if (template.id && isAdmin) {
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "template-delete";
+        remove.textContent = "Delete";
+        remove.setAttribute("aria-label", `Delete template: ${template.name}`);
+        remove.addEventListener("click", async () => {
+            if (!window.confirm(`Permanently delete "${template.name}"? This cannot be undone.`)) return;
+            remove.disabled = true;
+            const { error } = await supabase.from("motd_templates").delete().eq("id", template.id);
+            if (error) {
+                remove.disabled = false;
+                setMessage(authStatus, "Could not delete this template. Check your moderator permissions.", true);
+            } else {
+                community = community.filter(item => item.id !== template.id);
+                setMessage(authStatus, "Template deleted.");
+                render();
+            }
+        });
+        actions.appendChild(remove);
+    } else if (template.id && template.status === "pending" && currentUser?.id === template.author_id) {
         const remove = document.createElement("button");
         remove.type = "button";
         remove.className = "template-delete";
         remove.textContent = "Withdraw";
         remove.addEventListener("click", async () => {
+            if (!window.confirm("Withdraw this pending submission?")) return;
             const { error } = await supabase.from("motd_templates").delete().eq("id", template.id);
             if (error) setMessage(createStatus, "Could not withdraw this submission.", true);
             else {
