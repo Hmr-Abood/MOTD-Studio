@@ -1,1 +1,157 @@
 
+.field {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.field label,
+.formatting-header label {
+    display: block;
+    margin-bottom: 9px;
+    color: #a5aab5;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+}
+
+.field input {
+    width: 100%;
+    height: 43px;
+    padding: 0 12px;
+    outline: none;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: #0d0f13;
+    color: var(--text);
+    font-size: 12px;
+    transition: border 0.2s;
+}
+
+.field input:focus {
+    border-color: var(--accent);
+}
+
+.character-count {
+    display: block;
+    margin-top: 6px;
+    color: #666d7a;
+    font-size: 10px;
+    text-align: right;
+}
+
+.formatting {
+    margin-top: 27px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.formatting-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.formatting-header span {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.color-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 9px;
+    margin: 13px 0 20px;
+}
+
+.color {
+    width: 100%;
+    aspect-ratio: 1;
+    border: 2px solid #ffffff12;
+    border-radius: 6px;
+    transition: transform 0.15s, border-color 0.15s;
+}
+
+.color:hover {
+    transform: translateY(-2px);
+    border-color: #fff;
+}
+
+.black { background: #000000; }
+.dark-blue { background: #0000aa; }
+.dark-green { background: #00aa00; }
+.dark-aqua { background: #00aaaa; }
+.dark-red { background: #aa0000; }
+.dark-purple { background: #aa00aa; }
+.gold { background: #ffaa00; }
+.gray { background: #aaaaaa; }
+.dark-gray { background: #555555; }
+.blue { background: #5555ff; }
+.green { background: #55ff55; }
+.aqua { background: #55ffff; }
+.red { background: #ff5555; }
+.light-purple { background: #ff55ff; }
+.yellow { background: #ffff55; }
+.white { background: #ffffff; }
+
+.format-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.format-buttons button {
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: #171a20;
+    color: #b9bec9;
+    font-size: 11px;
+    transition: background 0.2s;
+}
+
+.format-buttons button:hover {
+    background: #252b36;
+    color: white;
+}
+
+.editor-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+    margin-top: 25px;
+}
+
+.editor-actions button {
+    padding: 10px 16px;
+    border-radius: 7px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.secondary-button {
+    border: 1px solid var(--border);
+    background: transparent;
+    color: #b8bdc8;
+}
+
+.secondary-button:hover {
+    background: var(--surface-light);
+}
+
+.primary-button {
+    border: 1px solid #78a9f5;
+    background: #6b9ce8;
+    color: #101722;
+}
+
+.primary-button:hover {
+    background: var(--accent-hover);
+}
+
+.copy-status {
+    min-height: 16px;
+    margin-top: 10px;
+    color: #65d59b;
+    font-size: 11px;
+    text-align: right;
+}
