@@ -4,7 +4,9 @@
 
 # MOTD Studio
 
-**A lightweight toolkit for creating, previewing, sharing, and testing Minecraft server MOTDs.**
+**The Minecraft Server Toolkit.**
+
+Create and customize MOTDs, explore community templates, and test Minecraft servers — all in your browser.
 
 [Open MOTD Studio](https://motdedtior.vercel.app/) · [Server Tester](https://motdedtior.vercel.app/server-tester) · [Community Templates](https://motdedtior.vercel.app/templates)
 
@@ -18,11 +20,11 @@
 
 ## Overview
 
-MOTD Studio is a browser-based editor for Minecraft Java Edition server list descriptions. Build a two-line MOTD, preview Minecraft formatting, share your design, or check the live status of a server.
+MOTD Studio is a browser-based toolkit for Minecraft server owners. It brings useful server customization and testing tools together in one place, starting with a live MOTD editor, a community template library, and a Java Edition server tester.
 
-No installation is required. The editor runs in the browser and saves your current text locally.
+No installation is required. Open the website and use the tools directly in your browser.
 
-## Features
+## Tools
 
 ### MOTD Editor
 - Live Minecraft server-list preview.
@@ -33,27 +35,23 @@ No installation is required. The editor runs in the browser and saves your curre
 - Multiple preview backgrounds and custom background uploads.
 - Copy the formatted MOTD for your server configuration.
 
-### Shareable MOTDs
-- Create a share link from the current editor.
-- Preserve both lines and their formatting.
-- Open a shared link to load the design into the editor.
-- No account required to share or open a link.
-
-### Server MOTD Tester
-- Look up a Minecraft Java server by address.
-- Check online status, player count, version, and software.
-- View the server icon and formatted MOTD.
-- Supports custom ports.
-
 ### Community Templates
 - Browse and filter built-in and community templates.
 - Sign in to submit your own designs.
 - Submissions are reviewed before public listing.
 - Moderation tools for approved administrators.
 
+### Server Tester
+- Look up a Minecraft Java server by address.
+- Check online status, player count, version, and software.
+- View the server icon and formatted MOTD.
+- Supports custom ports.
+
+MOTD Studio is designed to grow with more practical Minecraft server tools over time.
+
 ## Getting started
 
-You can use the hosted version at **[motdedtior.vercel.app](https://motdedtior.vercel.app/)**.
+Use the hosted version at **[motdedtior.vercel.app](https://motdedtior.vercel.app/)**.
 
 To run the project locally, clone the repository and serve the folder with a local web server. The project uses browser ES modules, so opening `index.html` directly as a `file://` URL is not recommended.
 
