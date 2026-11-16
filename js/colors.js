@@ -70,7 +70,7 @@ export function renderMinecraftText(container, text) {
             italic = false;
             underline = false;
             strikethrough = false;
-            i += 8;
+            i += hexMatch[0].length - 1;
             continue;
         }
 
