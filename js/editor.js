@@ -57,6 +57,22 @@ function loadEditorState() {
             console.warn("Ignoring invalid shared MOTD link.");
         }
     }
+
+    const importedMotd = localStorage.getItem("motd-import-from-server");
+    if (importedMotd) {
+        localStorage.removeItem("motd-import-from-server");
+        try {
+            const decoded = JSON.parse(importedMotd);
+            if (decoded && typeof decoded.line1 === "string" && typeof decoded.line2 === "string"
+                && decoded.line1.length <= 100 && decoded.line2.length <= 100) {
+                line1.value = decoded.line1;
+                line2.value = decoded.line2;
+                saveEditorState();
+            }
+        } catch (error) {
+            console.warn("Ignoring invalid imported server MOTD.");
+        }
+    }
 }
 
 export function applyTemplate(firstLine, secondLine) {
