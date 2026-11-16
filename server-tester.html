@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0c0d10">
+    <title>Server MOTD Tester | MOTD Studio</title>
+    <meta name="description" content="Check a Minecraft server's live status, MOTD, players, and version.">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/server-tester.css">
+</head>
+<body>
+<div class="app">
+    <aside class="sidebar">
+        <div class="brand"><div class="brand-icon">M</div><div class="brand-text"><h2>MOTD Studio</h2><span>Minecraft Tools</span></div></div>
+        <div class="nav-label">WORKSPACE</div>
+        <nav class="navigation">
+            <a href="index.html#editor" class="nav-item"><span class="nav-icon">◈</span>MOTD Editor</a>
+            <a href="templates.html" class="nav-item"><span class="nav-icon">▦</span>Templates</a>
+            <a href="server-tester.html" class="nav-item active" aria-current="page"><span class="nav-icon">⌁</span>Server Tester</a>
+        </nav>
+        <div class="sidebar-bottom"><div class="version">MOTD Studio <span>v1.0.0</span></div><a href="https://github.com/Hmr-Abood/MOTD-Studio" target="_blank" rel="noopener noreferrer">GitHub Repository ↗</a></div>
+    </aside>
+    <main class="main tester-main">
+        <header class="topbar">
+            <div><h1>Server MOTD Tester</h1><p>Check a Minecraft server's live status and server-list description.</p></div>
+            <a class="tester-back" href="index.html#editor">Back to Editor</a>
+        </header>
+        <section class="panel tester-search-panel">
+            <div class="tester-heading"><span class="eyebrow">JAVA EDITION SERVER LOOKUP</span><h2>Check your server</h2><p>Enter an address or a custom port to see what players see in the multiplayer list.</p></div>
+            <form id="server-lookup-form" class="server-lookup-form">
+                <label class="sr-only" for="server-address">Server address</label>
+                <input id="server-address" name="address" type="text" maxlength="260" placeholder="play.example.net or play.example.net:25566" autocomplete="url" required>
+                <button type="submit" id="server-lookup-button">Check Server</button>
+            </form>
+            <p class="tester-status" id="tester-status" role="status" aria-live="polite">Supports Minecraft Java Edition servers.</p>
+        </section>
+        <section class="panel server-result" id="server-result" hidden aria-live="polite">
+            <div class="server-result-heading">
+                <div><span class="eyebrow">SERVER STATUS</span><h2 id="result-hostname">Server</h2></div>
+                <span class="server-state" id="server-state">Checking</span>
+            </div>
+            <div class="server-preview">
+                <div class="result-icon"><img id="result-icon" alt="Server icon" hidden><span id="result-icon-fallback">M</span></div>
+                <div class="result-motd" id="result-motd"><p>No MOTD available.</p></div>
+                <div class="result-players"><strong id="result-player-count">—</strong><span>PLAYERS</span></div>
+            </div>
+            <div class="server-details">
+                <div><span>VERSION</span><strong id="result-version">—</strong></div>
+                <div><span>SOFTWARE</span><strong id="result-software">—</strong></div>
+                <div><span>ADDRESS</span><strong id="result-address">—</strong></div>
+            </div>
+            <div class="tester-actions"><a href="index.html#editor" class="tester-edit-link">Open MOTD Editor</a><button type="button" id="test-again-button">Check Again</button></div>
+        </section>
+        <footer>MOTD Studio <span>·</span> Server status powered by an external Minecraft status provider.</footer>
+    </main>
+</div>
+<script type="module" src="js/server-tester.js"></script>
+</body>
+</html>
