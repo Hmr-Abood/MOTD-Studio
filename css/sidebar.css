@@ -124,7 +124,6 @@
 
     .brand-text,
     .nav-label,
-    .nav-item:not(.active),
     .sidebar-bottom {
         display: none;
     }
