@@ -25,9 +25,9 @@ revoke all on table private.motd_admins, private.motd_submission_events from pub
 create table if not exists public.motd_templates (
     id uuid primary key default gen_random_uuid(),
     name text not null check (char_length(btrim(name)) between 1 and 40),
-    description text not null check (char_length(btrim(description)) between 1 and 100),
-    line1 text not null check (char_length(line1) between 1 and 100 and char_length(btrim(line1)) > 0),
-    line2 text not null check (char_length(line2) between 1 and 100 and char_length(btrim(line2)) > 0),
+    description text not null check (char_length(btrim(description)) between 1 and 500),
+    line1 text not null check (char_length(line1) between 1 and 500 and char_length(btrim(line1)) > 0),
+    line2 text not null check (char_length(line2) between 1 and 500 and char_length(btrim(line2)) > 0),
     language text not null check (language in ('English','Arabic','Spanish','French','German','Portuguese','Other')),
     category text not null check (category in ('Survival','SMP','PvP','Factions','Creative','Minigames','Network','Other')),
     style text not null check (style in ('Clean','Minimal','Colorful','Gradient','Seasonal')),
