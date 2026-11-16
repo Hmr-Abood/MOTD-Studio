@@ -10,6 +10,18 @@ create table if not exists private.motd_admins (
     created_at timestamptz not null default now()
 );
 
+-- A private audit ledger keeps the rate limit effective even if a pending
+-- template is withdrawn or removed later.
+create table if not exists private.motd_submission_events (
+    id bigint generated always as identity primary key,
+    user_id uuid not null references auth.users(id) on delete cascade,
+    created_at timestamptz not null default now()
+);
+
+alter table private.motd_admins enable row level security;
+alter table private.motd_submission_events enable row level security;
+revoke all on table private.motd_admins, private.motd_submission_events from public, anon, authenticated;
+
 create table if not exists public.motd_templates (
     id uuid primary key default gen_random_uuid(),
     name text not null check (char_length(btrim(name)) between 1 and 40),
@@ -113,13 +125,16 @@ begin
 
     select count(*)::integer
       into recent_count
-      from public.motd_templates
-     where author_id = submitting_user
+      from private.motd_submission_events
+     where user_id = submitting_user
        and created_at > now() - interval '24 hours';
 
     if recent_count >= 5 then
         raise exception 'submission limit reached: five templates per 24 hours';
     end if;
+
+    insert into private.motd_submission_events (user_id)
+    values (submitting_user);
 
     return new;
 end;
