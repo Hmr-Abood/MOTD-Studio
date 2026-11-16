@@ -125,3 +125,47 @@
 @media (max-width: 450px) {
     .background-presets { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+
+/* Original Minecraft Wiki background images */
+.swatch-dirt {
+    background-image: url("https://minecraft.fandom.com/wiki/Special:Redirect/file/Dirt_background_JE2.png");
+    background-size: cover;
+    background-position: center;
+}
+.swatch-netherrack {
+    background-image: url("https://minecraft.fandom.com/wiki/Special:Redirect/file/Netherrack_background_BE2.png");
+    background-size: cover;
+    background-position: center;
+}
+.swatch-end-stone {
+    background-image: url("https://minecraft.fandom.com/wiki/Special:Redirect/file/End_Stone_background_BE2.png");
+    background-size: cover;
+    background-position: center;
+}
+.swatch-nether {
+    background-image: url("https://minecraft.fandom.com/wiki/Special:Redirect/file/Nether_Portal_background.png");
+    background-size: cover;
+    background-position: center;
+}
+.swatch-end {
+    background-image: url("https://minecraft.fandom.com/wiki/Special:Redirect/file/End_Poem_Background_JE.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.minecraft-window[data-preview-background="dirt"] {
+    background-image: linear-gradient(#0003, #0003), url("https://minecraft.fandom.com/wiki/Special:Redirect/file/Dirt_background_JE2.png");
+}
+.minecraft-window[data-preview-background="netherrack"] {
+    background-image: linear-gradient(#0003, #0003), url("https://minecraft.fandom.com/wiki/Special:Redirect/file/Netherrack_background_BE2.png");
+}
+.minecraft-window[data-preview-background="end-stone"] {
+    background-image: linear-gradient(#0003, #0003), url("https://minecraft.fandom.com/wiki/Special:Redirect/file/End_Stone_background_BE2.png");
+}
+.minecraft-window[data-preview-background="nether-portal"] {
+    background-image: linear-gradient(#0003, #0003), url("https://minecraft.fandom.com/wiki/Special:Redirect/file/Nether_Portal_background.png");
+}
+.minecraft-window[data-preview-background="end-portal"] {
+    background-image: linear-gradient(#0003, #0003), url("https://minecraft.fandom.com/wiki/Special:Redirect/file/End_Poem_Background_JE.png");
+}
