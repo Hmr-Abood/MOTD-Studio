@@ -13,7 +13,6 @@
 
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/sidebar.css">
-    <link rel="stylesheet" href="css/app-navigation.css">
     <link rel="stylesheet" href="css/preview.css">
     <link rel="stylesheet" href="css/preview-backgrounds.css">
     <link rel="stylesheet" href="css/editor.css">
@@ -35,7 +34,7 @@
             <div class="nav-label">WORKSPACE</div>
 
             <nav class="navigation">
-                <a href="/?view=editor" class="nav-item active" data-app-view="editor">
+                <a href="/" class="nav-item active" aria-current="page">
                     <span class="nav-icon">◈</span>
                     MOTD Editor
                 </a>
@@ -43,7 +42,7 @@
                     <span class="nav-icon">▦</span>
                     Templates
                 </a>
-                <a href="/?view=server-tester" class="nav-item" data-app-view="server-tester">
+                <a href="/server-tester" class="nav-item">
                     <span class="nav-icon">⌁</span>
                     Server Tester
                 </a>
@@ -292,15 +291,6 @@
 
             </div>
 
-            <section id="server-tester-view" class="embedded-tool-view" hidden aria-label="Server Tester">
-                <iframe
-                    class="embedded-tool-frame"
-                    src="/server-tester?embed=1"
-                    title="Minecraft Server Tester"
-                    loading="lazy"
-                ></iframe>
-            </section>
-
             <footer id="editor-footer">
                 MOTD Studio <span>·</span> Minecraft server customization
             </footer>
@@ -308,6 +298,5 @@
     </div>
 
     <script type="module" src="js/main.js"></script>
-    <script type="module" src="js/app-navigation.js"></script>
 </body>
 </html>
