@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0c0d10">
+    <title>Templates | MOTD Studio</title>
+    <meta name="description" content="Browse, filter, and create Minecraft server MOTD templates.">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/templates-page.css">
+</head>
+<body>
+<div class="app">
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">M</div>
+            <div class="brand-text"><h2>MOTD Studio</h2><span>Minecraft Tools</span></div>
+        </div>
+        <div class="nav-label">WORKSPACE</div>
+        <nav class="navigation">
+            <a href="index.html#editor" class="nav-item"><span class="nav-icon">◈</span>MOTD Editor</a>
+            <a href="templates.html" class="nav-item active" aria-current="page"><span class="nav-icon">▦</span>Templates</a>
+            <a href="index.html#editor" class="nav-item"><span class="nav-icon">◉</span>Server Icon</a>
+        </nav>
+        <div class="sidebar-bottom">
+            <div class="version">MOTD Studio <span>v1.0.0</span></div>
+            <a href="https://github.com/Hmr-Abood/MOTD-Studio" target="_blank" rel="noopener noreferrer">GitHub Repository ↗</a>
+        </div>
+    </aside>
+    <main class="main templates-main">
+        <header class="topbar">
+            <div><h1>Template Library</h1><p>Find a starting point or build your own Minecraft server MOTD.</p></div>
+            <a class="back-editor" href="index.html#editor">Back to Editor</a>
+        </header>
+        <div class="templates-content">
+            <section class="template-intro panel">
+                <div><span class="eyebrow">MOTD COLLECTION</span><h2>Find your server's style.</h2><p>Browse ready-made designs or create a template that matches your server.</p></div>
+                <div class="template-count"><strong id="template-count">0</strong><span>templates</span></div>
+            </section>
+
+            <section class="panel library-panel">
+                <div class="library-heading"><div><h2>Browse templates</h2><p>Filter by language, game mode, and visual style.</p></div></div>
+                <div class="template-controls">
+                    <input type="search" id="template-search" placeholder="Search by name, description, or keyword..." aria-label="Search templates">
+                    <select id="filter-category" aria-label="Filter by server type">
+                        <option value="All">All server types</option><option>Survival</option><option>SMP</option><option>PvP</option><option>Factions</option><option>Creative</option><option>Minigames</option><option>Network</option><option>Other</option>
+                    </select>
+                    <select id="filter-language" aria-label="Filter by language">
+                        <option value="All">All languages</option><option>English</option><option>Arabic</option><option>Spanish</option><option>French</option><option>German</option><option>Portuguese</option><option>Other</option>
+                    </select>
+                    <select id="filter-style" aria-label="Filter by style">
+                        <option value="All">All styles</option><option>Clean</option><option>Minimal</option><option>Colorful</option><option>Gradient</option><option>Seasonal</option>
+                    </select>
+                </div>
+                <div class="template-grid" id="template-grid" aria-live="polite"><p class="templates-loading">Loading templates...</p></div>
+                <p class="library-note">Your own templates are saved in this browser. They are not uploaded or shared.</p>
+            </section>
+
+            <section class="panel create-panel" id="create-template">
+                <div class="library-heading"><div><span class="eyebrow">YOUR COLLECTION</span><h2>Create a template</h2><p>Save your own MOTD with useful details so it is easy to find later.</p></div></div>
+                <form id="create-template-form">
+                    <div class="form-grid">
+                        <label>Template name<input id="custom-name" type="text" maxlength="40" placeholder="e.g. Arabic Survival" required></label>
+                        <label>Language<select id="custom-language" required><option value="">Choose language</option><option>English</option><option>Arabic</option><option>Spanish</option><option>French</option><option>German</option><option>Portuguese</option><option>Other</option></select></label>
+                        <label>Server type<select id="custom-category" required><option value="">Choose server type</option><option>Survival</option><option>SMP</option><option>PvP</option><option>Factions</option><option>Creative</option><option>Minigames</option><option>Network</option><option>Other</option></select></label>
+                        <label>Style<select id="custom-style" required><option value="">Choose style</option><option>Clean</option><option>Minimal</option><option>Colorful</option><option>Gradient</option><option>Seasonal</option></select></label>
+                    </div>
+                    <label class="full-field">Description<input id="custom-description" type="text" maxlength="100" placeholder="A short note about this design" required></label>
+                    <div class="motd-fields">
+                        <label>Line 1<input id="custom-line-1" type="text" maxlength="100" placeholder="&aWelcome to my server!" required></label>
+                        <label>Line 2<input id="custom-line-2" type="text" maxlength="100" placeholder="&7Survival • Events • Community" required></label>
+                    </div>
+                    <div class="create-actions"><p id="create-status" aria-live="polite"></p><button type="submit" class="create-button">Save template</button></div>
+                </form>
+            </section>
+        </div>
+        <footer>MOTD Studio <span>·</span> Minecraft server customization</footer>
+    </main>
+</div>
+<script type="module" src="js/templates-page.js"></script>
+</body>
+</html>
