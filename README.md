@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="https://raw.githubusercontent.com/Hmr-Abood/MOTD-Studio/main/assets/icons/logo.gif" alt="MOTD Studio logo" width="96">
+
 # MOTD Studio
 
 **A lightweight toolkit for creating, previewing, sharing, and testing Minecraft server MOTDs.**
