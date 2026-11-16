@@ -39,6 +39,15 @@ function loadEditorState() {
     if (savedLine2 !== null) line2.value = savedLine2;
 }
 
+export function applyTemplate(firstLine, secondLine) {
+    line1.value = firstLine;
+    line2.value = secondLine;
+    activeInput = line1;
+    saveEditorState();
+    updatePreview();
+    line1.focus();
+}
+
 export function initializeEditor() {
     loadEditorState();
 
