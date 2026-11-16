@@ -37,6 +37,22 @@ function loadEditorState() {
 
     if (savedLine1 !== null) line1.value = savedLine1;
     if (savedLine2 !== null) line2.value = savedLine2;
+
+    const sharedValue = new URLSearchParams(window.location.search).get("motd");
+    if (sharedValue) {
+        try {
+            const decoded = JSON.parse(decodeURIComponent(escape(atob(sharedValue.replace(/-/g, "+").replace(/_/g, "/")))));
+            if (decoded && typeof decoded.line1 === "string" && typeof decoded.line2 === "string"
+                && decoded.line1.length <= 100 && decoded.line2.length <= 100) {
+                line1.value = decoded.line1;
+                line2.value = decoded.line2;
+                saveEditorState();
+                window.history.replaceState({}, "", window.location.pathname + window.location.hash);
+            }
+        } catch (error) {
+            console.warn("Ignoring invalid shared MOTD link.");
+        }
+    }
 }
 
 export function applyTemplate(firstLine, secondLine) {
@@ -73,6 +89,23 @@ export function initializeEditor() {
         button.addEventListener("click", () => {
             insertCode(button.dataset.code);
         });
+    });
+
+    document.getElementById("share-button")?.addEventListener("click", async () => {
+        const status = document.getElementById("copy-status");
+        const payload = JSON.stringify({ line1: line1.value, line2: line2.value });
+        const encoded = btoa(unescape(encodeURIComponent(payload)))
+            .replace(/\\+/g, "-").replace(/\\//g, "_").replace(/=+$/g, "");
+        const shareUrl = new URL(window.location.href);
+        shareUrl.search = "";
+        shareUrl.hash = "editor";
+        shareUrl.searchParams.set("motd", encoded);
+        try {
+            await navigator.clipboard.writeText(shareUrl.toString());
+            status.textContent = "Share link copied!";
+        } catch (error) {
+            status.textContent = shareUrl.toString();
+        }
     });
 
     document.getElementById("reset-button").addEventListener("click", () => {
