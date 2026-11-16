@@ -140,7 +140,7 @@ if (typeof window !== "undefined" && !window.__motdObfuscationTimer) {
         document.querySelectorAll(".minecraft-obfuscated").forEach(span => {
             const original = span.dataset.originalText || "";
             span.textContent = Array.from(original, character => {
-                if (/\\s/.test(character)) return character;
+                if (/\s/.test(character)) return character;
                 return OBFUSCATED_GLYPHS[Math.floor(Math.random() * OBFUSCATED_GLYPHS.length)];
             }).join("");
         });
