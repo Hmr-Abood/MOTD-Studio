@@ -1,0 +1,101 @@
+/* Custom hex color picker */
+
+.hex-picker {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.hex-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+#hex-color {
+    width: 46px;
+    height: 42px;
+    flex: 0 0 46px;
+    padding: 4px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: #0d0f13;
+    cursor: pointer;
+}
+
+#hex-value {
+    width: 0;
+    min-width: 0;
+    height: 42px;
+    flex: 1;
+    padding: 0 12px;
+    outline: none;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: #0d0f13;
+    color: var(--text);
+    font-family: monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+#hex-value:focus {
+    border-color: var(--accent);
+}
+
+#apply-hex {
+    min-height: 42px;
+    padding: 0 14px;
+    border: 1px solid #78a9f5;
+    border-radius: 7px;
+    background: #6b9ce8;
+    color: #101722;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+#apply-hex:hover {
+    background: var(--accent-hover);
+}
+
+.hex-preview {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+#hex-preview-swatch {
+    width: 15px;
+    height: 15px;
+    flex: 0 0 15px;
+    border: 1px solid #ffffff35;
+    border-radius: 4px;
+    background: #55FFFF;
+}
+
+.hex-error {
+    min-height: 15px;
+    margin-top: 7px;
+    color: #ff7777;
+    font-size: 10px;
+}
+
+@media (max-width: 420px) {
+    .hex-controls {
+        flex-wrap: wrap;
+    }
+
+    #hex-value {
+        min-width: calc(100% - 60px);
+    }
+
+    #apply-hex {
+        width: 100%;
+    }
+}
