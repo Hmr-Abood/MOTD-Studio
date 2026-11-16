@@ -1,5 +1,4 @@
-// This file contains only public browser configuration.
-// The publishable key is designed for frontend use when Row Level Security is enabled.
-// NEVER put a Supabase secret or service_role key in this file.
-export const SUPABASE_URL = "YOUR_SUPABASE_PROJECT_URL";
-export const SUPABASE_PUBLISHABLE_KEY = "YOUR_SUPABASE_PUBLISHABLE_KEY";
+// Public browser configuration. The publishable key is safe to expose
+// when the database's Row Level Security policies are enabled.
+export const SUPABASE_URL = "https://ygzudonkygnlctodrdwr.supabase.co";
+export const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Facd8AcvxIlEul0sNjRU9g_CfaXySl9";
