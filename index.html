@@ -193,6 +193,37 @@
                         <p class="hex-error" id="hex-error" aria-live="polite"></p>
                     </div>
 
+                    <div class="gradient-generator">
+                        <div class="formatting-header">
+                            <label for="gradient-text">GRADIENT GENERATOR</label>
+                            <span>Blend two colors across your text</span>
+                        </div>
+
+                        <div class="gradient-text-field">
+                            <label for="gradient-text">TEXT</label>
+                            <input type="text" id="gradient-text" maxlength="100" value="Your Server Name" placeholder="Enter text for your gradient">
+                        </div>
+
+                        <div class="gradient-colors">
+                            <div class="gradient-color-field">
+                                <label for="gradient-start">START COLOR</label>
+                                <input type="color" id="gradient-start" value="#55FFFF">
+                            </div>
+                            <div class="gradient-color-field">
+                                <label for="gradient-end">END COLOR</label>
+                                <input type="color" id="gradient-end" value="#AA55FF">
+                            </div>
+                        </div>
+
+                        <div class="gradient-preview-wrap">
+                            <span class="gradient-preview-label">PREVIEW</span>
+                            <div id="gradient-preview" class="gradient-preview">Your Server Name</div>
+                        </div>
+
+                        <button type="button" id="insert-gradient" class="gradient-insert-button">Insert Gradient</button>
+                        <p id="gradient-status" class="gradient-status" aria-live="polite"></p>
+                    </div>
+
                     <div class="editor-actions">
                         <button type="button" class="secondary-button" id="reset-button">
                             Reset
