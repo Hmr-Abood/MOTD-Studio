@@ -4,69 +4,89 @@
         "category": "Survival",
         "description": "A clean and welcoming survival server MOTD.",
         "line1": "&a&lSURVIVAL SERVER",
-        "line2": "&7Build &8• &eExplore &8• &bSurvive"
+        "line2": "&7Build &8• &eExplore &8• &bSurvive",
+        "language": "English",
+        "style": "Colorful"
     },
     {
         "name": "Hardcore Realm",
         "category": "Survival",
         "description": "A darker style for challenging survival gameplay.",
         "line1": "&#FF5555&lHARDCORE",
-        "line2": "&cOne life. &7Make it count."
+        "line2": "&cOne life. &7Make it count.",
+        "language": "English",
+        "style": "Seasonal"
     },
     {
         "name": "Vanilla SMP",
         "category": "Survival",
         "description": "Simple and friendly community SMP branding.",
         "line1": "&#55FF55&lVanilla SMP",
-        "line2": "&fA fresh world awaits &8| &eJoin today"
+        "line2": "&fA fresh world awaits &8| &eJoin today",
+        "language": "English",
+        "style": "Clean"
     },
     {
         "name": "Practice PvP",
         "category": "PvP",
         "description": "A bold competitive look for practice networks.",
         "line1": "&#FF5555&lPRACTICE",
-        "line2": "&7Duels &8• &cRanked &8• &fLeaderboards"
+        "line2": "&7Duels &8• &cRanked &8• &fLeaderboards",
+        "language": "English",
+        "style": "Colorful"
     },
     {
         "name": "Factions War",
         "category": "PvP",
         "description": "Built for factions, raids, and competitive play.",
         "line1": "&4&lFACTIONS",
-        "line2": "&cRaid. &6Conquer. &eDominate."
+        "line2": "&cRaid. &6Conquer. &eDominate.",
+        "language": "English",
+        "style": "Colorful"
     },
     {
         "name": "Creative Plots",
         "category": "Creative",
         "description": "A bright and inviting creative building server.",
         "line1": "&#55FFFF&lCREATIVE PLOTS",
-        "line2": "&bBuild anything &8• &fYour world, your rules"
+        "line2": "&bBuild anything &8• &fYour world, your rules",
+        "language": "English",
+        "style": "Gradient"
     },
     {
         "name": "Creative Network",
         "category": "Creative",
         "description": "A minimal MOTD for a creative-focused community.",
         "line1": "&d&lCREATIVE",
-        "line2": "&7Let your imagination run free."
+        "line2": "&7Let your imagination run free.",
+        "language": "English",
+        "style": "Minimal"
     },
     {
         "name": "Multi-Mode Network",
         "category": "Network",
         "description": "Showcase multiple game modes on one network.",
         "line1": "&#55AAFF&lYOUR NETWORK",
-        "line2": "&eSurvival &8• &bSkyblock &8• &dPrison"
+        "line2": "&eSurvival &8• &bSkyblock &8• &dPrison",
+        "language": "English",
+        "style": "Colorful"
     },
     {
         "name": "Premium Network",
         "category": "Network",
         "description": "A polished premium-style network introduction.",
         "line1": "&#FFD700&lPREMIUM NETWORK",
-        "line2": "&fEvents &8| &aUpdates &8| &bCommunity"
+        "line2": "&fEvents &8| &aUpdates &8| &bCommunity",
+        "language": "English",
+        "style": "Clean"
     },
     {
         "name": "Minigames Hub",
         "category": "Network",
         "description": "A lively hub for a variety of minigames.",
         "line1": "&#FFAA00&lMINIGAMES",
-        "line2": "&ePlay with friends &8• &bNew games weekly"
+        "line2": "&ePlay with friends &8• &bNew games weekly",
+        "language": "English",
+        "style": "Colorful"
     }
 ]
