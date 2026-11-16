@@ -36,3 +36,22 @@
 .create-actions p { color:#65d59b; font-size:11px; }
 @media(max-width:1000px) { .template-controls { grid-template-columns:1fr 1fr; } .form-grid { grid-template-columns:1fr 1fr; } }
 @media(max-width:600px) { .template-intro { align-items:flex-start; } .template-controls, .form-grid, .motd-fields { grid-template-columns:1fr; } .create-actions { align-items:stretch; flex-direction:column; } .create-button { width:100%; } }
+
+/* Community authentication and moderation */
+.auth-fields { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.auth-panel label { display:flex; flex-direction:column; gap:8px; color:#a5aab5; font-size:10px; font-weight:700; }
+.auth-fields input { width:100%; height:40px; padding:0 11px; border:1px solid var(--border); border-radius:7px; outline:none; background:#0d0f13; color:var(--text); font:inherit; font-size:11px; }
+.auth-actions { display:flex; flex-wrap:wrap; align-items:center; gap:9px; margin-top:14px; }
+.auth-secondary { min-height:36px; padding:0 12px; border:1px solid var(--border); border-radius:6px; background:transparent; color:var(--text); font-size:11px; }
+.auth-account-state, #auth-status { color:var(--muted); font-size:11px; }
+#auth-status { flex-basis:100%; }
+.message-error { color:#f08b8b !important; }
+[hidden] { display:none !important; }
+.create-button:disabled { opacity:.45; cursor:not-allowed; }
+.template-card-actions { display:flex; flex-wrap:wrap; align-items:center; gap:7px; }
+.template-card-actions .template-apply { flex:1 1 100%; }
+.template-review-status { color:#d9b66f; font-size:10px; }
+.template-review-button { padding:7px 9px; border:1px solid #426d57; border-radius:5px; background:#14251c; color:#9de0b5; font-size:10px; }
+.template-review-button.reject { border-color:#704343; background:#291819; color:#e99a9a; }
+.template-delete { padding:7px 4px; margin:0; }
+@media(max-width:600px) { .auth-fields { grid-template-columns:1fr; } }
