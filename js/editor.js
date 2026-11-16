@@ -38,22 +38,6 @@ function loadEditorState() {
     if (savedLine1 !== null) line1.value = savedLine1;
     if (savedLine2 !== null) line2.value = savedLine2;
 
-    const sessionImport = sessionStorage.getItem("motd-import-from-server");
-    if (sessionImport) {
-        sessionStorage.removeItem("motd-import-from-server");
-        try {
-            const decoded = JSON.parse(sessionImport);
-            if (decoded && typeof decoded.line1 === "string" && typeof decoded.line2 === "string"
-                && decoded.line1.length <= 100 && decoded.line2.length <= 100) {
-                line1.value = decoded.line1;
-                line2.value = decoded.line2;
-                saveEditorState();
-            }
-        } catch (error) {
-            console.warn("Ignoring invalid imported server MOTD.");
-        }
-    }
-
     const sharedValue = new URLSearchParams(window.location.search).get("motd");
     if (sharedValue) {
         try {
