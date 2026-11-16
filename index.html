@@ -32,7 +32,7 @@
             <div class="nav-label">WORKSPACE</div>
 
             <nav class="navigation">
-                <a href="/" class="nav-item active">
+                <a href="/?view=editor" class="nav-item active" data-app-view="editor">
                     <span class="nav-icon">◈</span>
                     MOTD Editor
                 </a>
@@ -40,7 +40,7 @@
                     <span class="nav-icon">▦</span>
                     Templates
                 </a>
-                <a href="/server-tester" class="nav-item">
+                <a href="/?view=server-tester" class="nav-item" data-app-view="server-tester">
                     <span class="nav-icon">⌁</span>
                     Server Tester
                 </a>
@@ -289,7 +289,16 @@
 
             </div>
 
-            <footer>
+            <section id="server-tester-view" class="embedded-tool-view" hidden aria-label="Server Tester">
+                <iframe
+                    class="embedded-tool-frame"
+                    src="/server-tester?embed=1"
+                    title="Minecraft Server Tester"
+                    loading="lazy"
+                ></iframe>
+            </section>
+
+            <footer id="editor-footer">
                 MOTD Studio <span>·</span> Minecraft server customization
             </footer>
         </main>
