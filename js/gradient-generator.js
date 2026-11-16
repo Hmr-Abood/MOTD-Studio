@@ -1,6 +1,13 @@
 import { insertCode } from "./editor.js";
 import { renderMinecraftText } from "./colors.js";
 
+const FORMAT_CODES = {
+    l: "&l",
+    o: "&o",
+    n: "&n",
+    m: "&m"
+};
+
 function hexToRgb(hex) {
     const value = hex.replace("#", "");
     return {
@@ -17,13 +24,14 @@ function rgbToHex({ r, g, b }) {
         .toUpperCase();
 }
 
-function createGradientText(text, startHex, endHex) {
+function createGradientText(text, startHex, endHex, formats = []) {
     const characters = Array.from(text);
     if (!characters.length) return "";
 
     const start = hexToRgb(startHex);
     const end = hexToRgb(endHex);
     const denominator = Math.max(characters.length - 1, 1);
+    const formattingCodes = formats.map(code => FORMAT_CODES[code]).join("");
 
     return characters.map((character, index) => {
         const amount = index / denominator;
@@ -33,7 +41,9 @@ function createGradientText(text, startHex, endHex) {
             b: start.b + (end.b - start.b) * amount
         };
 
-        return `&#${rgbToHex(color)}${character}`;
+        // Minecraft color codes reset formatting, so reapply selected styles
+        // after every per-character gradient color.
+        return `&#${rgbToHex(color)}${formattingCodes}${character}`;
     }).join("");
 }
 
@@ -44,17 +54,36 @@ export function initializeGradientGenerator() {
     const preview = document.getElementById("gradient-preview");
     const insertButton = document.getElementById("insert-gradient");
     const status = document.getElementById("gradient-status");
+    const formatButtons = [...document.querySelectorAll("[data-gradient-format]")];
+    const selectedFormats = new Set();
 
     function updatePreview() {
         const generated = createGradientText(
             textInput.value,
             startInput.value,
-            endInput.value
+            endInput.value,
+            [...selectedFormats]
         );
 
         renderMinecraftText(preview, generated || "Enter text to preview");
         return generated;
     }
+
+    formatButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            const code = button.dataset.gradientFormat;
+            if (selectedFormats.has(code)) {
+                selectedFormats.delete(code);
+                button.setAttribute("aria-pressed", "false");
+            } else {
+                selectedFormats.add(code);
+                button.setAttribute("aria-pressed", "true");
+            }
+
+            status.textContent = "";
+            updatePreview();
+        });
+    });
 
     [textInput, startInput, endInput].forEach(input => {
         input.addEventListener("input", () => {
