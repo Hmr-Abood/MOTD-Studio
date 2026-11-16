@@ -6,6 +6,7 @@ const testerView = document.getElementById("server-tester-view");
 function setView(view, updateUrl = true) {
     const showTester = view === "server-tester";
     main.classList.toggle("is-tool-view", showTester);
+    testerView.hidden = !showTester;
     document.querySelectorAll("[data-app-view]").forEach(link => {
         const active = link.dataset.appView === (showTester ? "server-tester" : "editor");
         link.classList.toggle("active", active);
