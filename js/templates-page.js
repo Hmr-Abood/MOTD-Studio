@@ -277,13 +277,20 @@ async function initialize() {
         }
         forgotPasswordButton.disabled = true;
         setMessage(authStatus, "Sending password reset email...");
-        const redirectTo = new URL("templates.html?reset=true", window.location.href).toString();
-        const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
-        forgotPasswordButton.disabled = false;
-        if (error) {
-            setMessage(authStatus, "Could not send the reset email. Please try again.", true);
-        } else {
-            setMessage(authStatus, "If an account exists for that email, a password reset link has been sent.");
+        try {
+            const redirectTo = new URL("templates.html?reset=true", window.location.href).toString();
+            const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
+            if (error) {
+                console.error("Password reset request failed:", error);
+                setMessage(authStatus, error.message || "Could not send the reset email. Please try again.", true);
+            } else {
+                setMessage(authStatus, "If an account exists for that email, a password reset link has been sent.");
+            }
+        } catch (error) {
+            console.error("Password reset request failed:", error);
+            setMessage(authStatus, error.message || "Could not connect to the password reset service. Please try again.", true);
+        } finally {
+            forgotPasswordButton.disabled = false;
         }
     });
 
