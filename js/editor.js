@@ -84,8 +84,22 @@ export function applyTemplate(firstLine, secondLine) {
     line1.focus();
 }
 
+function importServerMotd(detail) {
+    if (!detail || typeof detail.line1 !== "string" || typeof detail.line2 !== "string"
+        || detail.line1.length > 100 || detail.line2.length > 100) return;
+
+    line1.value = detail.line1;
+    line2.value = detail.line2;
+    activeInput = line1;
+    saveEditorState();
+    updatePreview();
+}
+
 export function initializeEditor() {
     loadEditorState();
+    window.addEventListener("motd-studio:import-server-motd", event => {
+        importServerMotd(event.detail);
+    });
 
     line1.addEventListener("focus", () => {
         activeInput = line1;
