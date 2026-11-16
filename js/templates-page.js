@@ -27,6 +27,10 @@ let currentUser = null;
 let isAdmin = false;
 let supabase = null;
 
+function showEmailTip() {
+    window.alert("Email tip: If you don't see your account confirmation or password reset email in your inbox, check your Spam or Junk folder. You can also search your inbox for “MOTD Studio”.");
+}
+
 function setMessage(element, message, isError = false) {
     element.textContent = message;
     element.classList.toggle("message-error", isError);
@@ -238,6 +242,7 @@ async function initialize() {
         event.preventDefault();
         const email = document.getElementById("community-email").value.trim();
         const password = document.getElementById("community-password").value;
+        showEmailTip();
         signInButton.disabled = true;
         setMessage(authStatus, "Signing in...");
         const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -256,6 +261,7 @@ async function initialize() {
             setMessage(authStatus, "Enter a valid email and a password with at least 8 characters.", true);
             return;
         }
+        showEmailTip();
         signUpButton.disabled = true;
         setMessage(authStatus, "Creating account...");
         const { data, error } = await supabase.auth.signUp({ email, password });
@@ -275,6 +281,7 @@ async function initialize() {
             document.getElementById("community-email").focus();
             return;
         }
+        showEmailTip();
         forgotPasswordButton.disabled = true;
         setMessage(authStatus, "Sending password reset email...");
         try {
