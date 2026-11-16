@@ -98,12 +98,11 @@ openEditorLink.addEventListener("click", event => {
         return;
     }
 
-    try {
-        localStorage.setItem("motd-import-from-server", JSON.stringify(scannedMotd));
-    } catch (error) {
-        event.preventDefault();
-        statusText.textContent = "Could not transfer the scanned MOTD. Please check your browser storage settings.";
-    }
+    event.preventDefault();
+    const payload = JSON.stringify(scannedMotd);
+    const encoded = btoa(unescape(encodeURIComponent(payload)))
+        .replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/g, "");
+    window.top.location.href = "/?motd=" + encoded;
 });
 
 const params = new URLSearchParams(window.location.search);
