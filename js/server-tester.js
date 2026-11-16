@@ -1,3 +1,7 @@
+if (new URLSearchParams(window.location.search).get("embed") === "1") {
+    document.documentElement.classList.add("tester-embed");
+}
+
 import { renderMinecraftText } from "./colors.js";
 
 const form = document.getElementById("server-lookup-form");
