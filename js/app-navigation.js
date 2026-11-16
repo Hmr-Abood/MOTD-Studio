@@ -1,12 +1,11 @@
 const main = document.querySelector(".main");
-const editorLink = document.querySelector('[data-app-view="editor"]');
-const testerLink = document.querySelector('[data-app-view="server-tester"]');
 const testerView = document.getElementById("server-tester-view");
 
 function setView(view, updateUrl = true) {
     const showTester = view === "server-tester";
     main.classList.toggle("is-tool-view", showTester);
     testerView.hidden = !showTester;
+
     document.querySelectorAll("[data-app-view]").forEach(link => {
         const active = link.dataset.appView === (showTester ? "server-tester" : "editor");
         link.classList.toggle("active", active);
@@ -16,20 +15,16 @@ function setView(view, updateUrl = true) {
 
     document.title = showTester ? "Server Tester | MOTD Studio" : "MOTD Studio";
     if (updateUrl) {
-        const url = showTester ? "/?view=server-tester" : "/";
-        history.pushState({ view: showTester ? "server-tester" : "editor" }, "", url);
+        history.pushState({ view: showTester ? "server-tester" : "editor" }, "", showTester ? "/?view=server-tester" : "/");
     }
 }
 
-editorLink.addEventListener("click", event => {
+document.addEventListener("click", event => {
+    const link = event.target.closest("[data-app-view]");
+    if (!link) return;
     event.preventDefault();
-    setView("editor");
-});
-
-testerLink.addEventListener("click", event => {
-    event.preventDefault();
-    setView("server-tester");
-});
+    setView(link.dataset.appView);
+}, true);
 
 window.addEventListener("popstate", () => {
     setView(new URLSearchParams(location.search).get("view"), false);
