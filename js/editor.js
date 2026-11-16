@@ -102,7 +102,7 @@ export function initializeEditor() {
             .replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/g, "");
         const shareUrl = new URL(window.location.href);
         shareUrl.search = "";
-        shareUrl.hash = "editor";
+        shareUrl.hash = "";
         shareUrl.searchParams.set("motd", encoded);
         try {
             await navigator.clipboard.writeText(shareUrl.toString());
