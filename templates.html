@@ -71,21 +71,19 @@
                         <button type="button" class="auth-secondary" id="sign-out-button" hidden>Sign out</button>
                         <span id="auth-status" role="status" aria-live="polite"></span>
                     </div>
-                    <form id="password-reset-form" class="password-reset-form" hidden>
-                        <h3>Choose a new password</h3>
-                        <p>Enter your new password below. Use at least 8 characters.</p>
-                        <div class="auth-fields">
-                            <label>New password<input id="new-password" type="password" autocomplete="new-password" minlength="8" maxlength="72" required></label>
-                            <label>Confirm new password<input id="confirm-new-password" type="password" autocomplete="new-password" minlength="8" maxlength="72" required></label>
-                        </div>
-                        <div class="auth-actions">
-                            <button type="submit" class="create-button" id="save-new-password-button">Update password</button>
-                        </div>
-                    </form>
-                    <div class="auth-actions">
-                    </div>
-                    <p class="auth-account-state" id="account-state">Not signed in.</p>
                 </form>
+                <form id="password-reset-form" class="password-reset-form" hidden>
+                    <h3>Choose a new password</h3>
+                    <p>Enter your new password below. Use at least 8 characters.</p>
+                    <div class="auth-fields">
+                        <label>New password<input id="new-password" type="password" autocomplete="new-password" minlength="8" maxlength="72" required></label>
+                        <label>Confirm new password<input id="confirm-new-password" type="password" autocomplete="new-password" minlength="8" maxlength="72" required></label>
+                    </div>
+                    <div class="auth-actions">
+                        <button type="submit" class="create-button" id="save-new-password-button">Update password</button>
+                    </div>
+                </form>
+                <p class="auth-account-state" id="account-state">Not signed in.</p>
             </section>
 
             <section class="panel create-panel" id="create-template">
